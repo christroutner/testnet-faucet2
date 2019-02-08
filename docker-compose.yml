@@ -3,14 +3,14 @@
 koa-mongodb:
   image: mongo
   ports:
-    - "27017:27017" # <host port>:<container port>
+    - "5555:27017" # <host port>:<container port>
   volumes:
     - ./database:/data/db
   command: mongod --smallfiles --logpath=/dev/null # -- quiet
   restart: always
 
 koa:
-  build: ./koa-boilerplate/
+  build: ./production/
   dockerfile: Dockerfile
   links:
     - koa-mongodb
@@ -21,12 +21,3 @@ koa:
     - ./keys:/home/safeuser/keys
 
   restart: always
-
-tor:
-  image: goldy/tor-hidden-service
-  links:
-    - koa
-  environment:
-      PORT_MAP: 80 # Map port to detected service
-  volumes:
-    - ./keys:/var/lib/tor/hidden_service/

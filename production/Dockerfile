@@ -32,8 +32,8 @@ RUN echo 'abcd8765' | sudo -S pwd
 
 # Clone the rest.bitcoin.com repository
 WORKDIR /home/safeuser
-RUN git clone https://github.com/christroutner/babel-free-koa2-api-boilerplate
-RUN mv babel-free-koa2-api-boilerplate koa
+RUN git clone https://github.com/christroutner/koa-api-boilerplate
+RUN mv koa-api-boilerplate koa
 RUN mkdir keys
 
 # Switch to the desired branch. `master` is usually stable,
