@@ -15,7 +15,7 @@ koa:
   links:
     - koa-mongodb
   ports:
-    - "3000:3000"  # <host port>:<container port>
+    - "5000:5000"  # <host port>:<container port>
   volumes:
 #    - ./logs:/home/coinjoin/consolidating-coinjoin/logs
     - ./keys:/home/safeuser/keys
