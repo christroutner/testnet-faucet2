@@ -42,7 +42,8 @@ async function startServer () {
   modules(app)
 
   // Enable CORS for testing
-  // app.use(cors({origin: '*'}))
+  // THIS IS A SECURITY RISK. COMMENT OUT FOR PRODUCTION
+  app.use(cors({ origin: '*' }))
 
   // MIDDLEWARE END
 
