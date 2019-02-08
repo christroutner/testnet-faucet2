@@ -1,0 +1,32 @@
+# Start the testnet server with the command 'docker-compose up -d'
+
+koa-mongodb:
+  image: mongo
+  ports:
+    - "27017:27017" # <host port>:<container port>
+  volumes:
+    - ./database:/data/db
+  command: mongod --smallfiles --logpath=/dev/null # -- quiet
+  restart: always
+
+koa:
+  build: ./koa-boilerplate/
+  dockerfile: Dockerfile
+  links:
+    - koa-mongodb
+  ports:
+    - "3000:3000"  # <host port>:<container port>
+  volumes:
+#    - ./logs:/home/coinjoin/consolidating-coinjoin/logs
+    - ./keys:/home/safeuser/keys
+
+  restart: always
+
+tor:
+  image: goldy/tor-hidden-service
+  links:
+    - koa
+  environment:
+      PORT_MAP: 80 # Map port to detected service
+  volumes:
+    - ./keys:/var/lib/tor/hidden_service/
