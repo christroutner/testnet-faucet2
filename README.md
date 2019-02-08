@@ -8,8 +8,10 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/christroutner/babel-free-koa2-api-boilerplate.svg)](https://greenkeeper.io/)
 
 
-Boilerplate for building APIs with [koa2](https://github.com/koajs/koa/tree/v2.x) and mongodb.
-This repository is forked from Adrian Obelmejias' [koa-api-boilerplate repository](https://github.com/adrianObel/koa2-api-boilerplate).
+This repoository is a boilerplate for building APIs with
+[koa2](https://github.com/koajs/koa/tree/v2.x) and mongodb.
+This repository was originally forked from Adrian Obelmejias'
+[koa-api-boilerplate repository](https://github.com/adrianObel/koa2-api-boilerplate).
 It makes the following modifications:
 
 - Remove babel as a dependency. This repository is now natively compatible with

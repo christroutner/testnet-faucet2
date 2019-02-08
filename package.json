@@ -1,7 +1,7 @@
 {
-  "name": "babel-free-koa2-api-boilerplate",
+  "name": "koa-api-boilerplate",
   "version": "3.0.0",
-  "description": "Koa2 boilerplate covering essentials for APIs, babel removed as a dependency",
+  "description": "Koa2 boilerplate covering essentials for REST API and auth.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -12,7 +12,7 @@
     "coverage:report": "nyc --reporter=html mocha --exit"
   },
   "keywords": [
-    "koa2-api-boilerplate",
+    "koa-api-boilerplate",
     "api",
     "koa",
     "koa2",
@@ -25,10 +25,10 @@
   "author": "Chris Troutner <chris.troutner@gmail.com>",
   "license": "MIT",
   "apidoc": {
-    "title": "babel-free-koa2-api-boilerplate",
+    "title": "koa-api-boilerplate",
     "url": "localhost:5000"
   },
-  "repository": "christroutner/babel-free-koa2-api-boilerplate",
+  "repository": "christroutner/koa-api-boilerplate",
   "dependencies": {
     "apidoc": "^0.17.6",
     "bcryptjs": "^2.4.3",
