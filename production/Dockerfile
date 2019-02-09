@@ -2,7 +2,7 @@
 #
 
 #IMAGE BUILD COMMANDS
-# ct-base-ubuntu = ubuntu 18.04 + nodejs
+# ct-base-ubuntu = ubuntu 18.04 + nodejs v10 LTS
 FROM christroutner/ct-base-ubuntu
 MAINTAINER Chris Troutner <chris.troutner@gmail.com>
 
