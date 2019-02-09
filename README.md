@@ -56,6 +56,9 @@ git clone https://github.com/christroutner/koa-api-boilerplate/tree/docker
 │   │   └── test.js
 │   ├── index.js             # Config entrypoint - exports config according to envionrment and commons
 │   └── passport.js          # Passportjs config of strategies
+|
+├── production               # Dockerfile for build production container
+|
 ├── src                      # Source code
 │   ├── modules
 │   │   ├── controller.js    # Module-specific controllers
