@@ -93,5 +93,3 @@ Visit `http://localhost:5000/docs/` to view docs
 
 ## License
 MIT
-
-testing sem release
