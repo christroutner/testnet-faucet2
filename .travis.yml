@@ -1,11 +1,11 @@
 # This is a node.js v8+ JavaScript project
 language: node_js
 node_js:
-  - "8"
+  - "10"
 
 # Build on Ubuntu Trusty (14.04)
 # https://docs.travis-ci.com/user/reference/trusty/#javascript-and-nodejs-images
-dist: trusty
+dist: xenial
 sudo: required
 
 # Use Docker
@@ -15,6 +15,11 @@ services:
 before_install:
   - ./install-mongo
   #- npm install -g mocha
+
+# https://github.com/greenkeeperio/greenkeeper-lockfile/issues/156
+install: case $TRAVIS_BRANCH in greenkeeper*) npm i;; *) npm ci;; esac;
+
+script: "npm run test"
 
 # Send coverage data to Coveralls
 after_success:
