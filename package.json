@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "KOA_ENV=test nyc --reporter=text ./node_modules/.bin/mocha --exit",
+    "test": "KOA_ENV=test nyc --reporter=text --timeout 15000 ./node_modules/.bin/mocha --exit",
     "lint": "eslint src/**/*.js",
     "docs": "./node_modules/.bin/apidoc -i src/ -o docs",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
