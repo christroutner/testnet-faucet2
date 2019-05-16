@@ -1,6 +1,6 @@
 const User = require('../models/users')
 const config = require('../../config')
-const getToken = require('../utils/auth')
+const getToken = require('../lib/auth')
 const jwt = require('jsonwebtoken')
 
 async function ensureUser (ctx, next) {
