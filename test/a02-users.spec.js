@@ -277,7 +277,7 @@ describe('Users', () => {
       }
     })
 
-    it("should throw 404 if user doesn't exist", async () => {
+    it('should throw 401 if non-admin updating other user', async () => {
       const { token } = context
 
       try {
@@ -295,7 +295,7 @@ describe('Users', () => {
         await rp(options)
         assert.equal(true, false, 'Unexpected behavior')
       } catch (err) {
-        assert.equal(err.statusCode, 404)
+        assert.equal(err.statusCode, 401)
       }
     })
 
@@ -355,7 +355,7 @@ describe('Users', () => {
       }
     })
 
-    it('should throw 404 if user doesn\'t exist', async () => {
+    it('should throw 401 if deleting other user', async () => {
       const { token } = context
 
       try {
@@ -373,7 +373,7 @@ describe('Users', () => {
         await rp(options)
         assert.equal(true, false, 'Unexpected behavior')
       } catch (err) {
-        assert.equal(err.statusCode, 404)
+        assert.equal(err.statusCode, 401)
       }
     })
 
