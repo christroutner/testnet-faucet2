@@ -41,6 +41,10 @@ const User = require('../../models/users')
  */
 async function createUser (ctx) {
   const user = new User(ctx.request.body.user)
+
+  // Enforce default value of 'user'
+  user.type = 'user'
+
   try {
     await user.save()
   } catch (err) {

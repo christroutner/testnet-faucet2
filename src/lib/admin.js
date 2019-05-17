@@ -16,10 +16,8 @@ const User = require('../models/users')
 const jsonFiles = require('./utils/json-files')
 const config = require('../../config')
 
-// Ensure the environment variable is set
-process.env.P2PVPS_ENV = process.env.P2PVPS_ENV || 'dev'
-const env = process.env.P2PVPS_ENV
-const JSON_FILE = `system-user-${env}.json`
+const JSON_FILE = `system-user-${config.env}.json`
+const JSON_PATH = `${__dirname}/../../config/${JSON_FILE}`
 
 const LOCALHOST = `http://localhost:${config.port}`
 const context = {}
@@ -34,7 +32,7 @@ async function createSystemUser () {
 
     const options = {
       method: 'POST',
-      uri: `${LOCALHOST}/api/users`,
+      uri: `${LOCALHOST}/users`,
       resolveWithFullResponse: true,
       json: true,
       body: {
@@ -62,7 +60,7 @@ async function createSystemUser () {
 
     // Write out the system user information to a JSON file that external
     // applications like the Task Manager and the test scripts can access.
-    await jsonFiles.writeJSON(context, `${__dirname}/../persist/${JSON_FILE}`)
+    await jsonFiles.writeJSON(context, JSON_PATH)
 
     return context
   } catch (err) {
@@ -75,12 +73,12 @@ async function createSystemUser () {
         // Call this function again.
         return createSystemUser()
       } catch (err2) {
-        console.error(`Error in util.js/createSystemUser() while trying generate new system user.`)
+        console.error(`Error in admin.js/createSystemUser() while trying generate new system user.`)
         // process.end(1)
         throw err2
       }
     } else {
-      console.log('Error in util.js/createSystemUser: ' + JSON.stringify(err, null, 2))
+      console.log('Error in admin.js/createSystemUser: ' + JSON.stringify(err, null, 2))
       // process.end(1)
       throw err
     }
@@ -97,7 +95,7 @@ async function deleteExistingSystemUser () {
     // Delete the user.
     const options = {
       method: 'DELETE',
-      uri: `${LOCALHOST}/api/users/${id}`,
+      uri: `${LOCALHOST}/users/${id}`,
       resolveWithFullResponse: true,
       json: true,
       headers: {
@@ -109,7 +107,7 @@ async function deleteExistingSystemUser () {
 
     return result.body.success
   } catch (err) {
-    console.log(`Error in util.js/deleteExistingSystemUser()`)
+    console.log(`Error in admin.js/deleteExistingSystemUser()`)
     throw err
   }
 }
@@ -120,13 +118,13 @@ async function loginAdmin () {
     let existingUser
 
     // Read the exising file
-    existingUser = await jsonFiles.readJSON(`${__dirname}/../persist/${JSON_FILE}`)
+    existingUser = await jsonFiles.readJSON(JSON_PATH)
     // console.log(`existingUser: ${JSON.stringify(existingUser, null, 2)}`)
 
     // Log in as the user.
     let options = {
       method: 'POST',
-      uri: `${LOCALHOST}/api/auth`,
+      uri: `${LOCALHOST}/auth`,
       resolveWithFullResponse: true,
       json: true,
       body: {
@@ -139,7 +137,7 @@ async function loginAdmin () {
 
     return result
   } catch (err) {
-    console.error(`Error in bin/util.js/loginAdmin().`)
+    console.error(`Error in admin.js/loginAdmin().`)
     throw err
   }
 }

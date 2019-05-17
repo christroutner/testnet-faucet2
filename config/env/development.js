@@ -7,5 +7,6 @@
 module.exports = {
   session: 'secret-boilerplate-token',
   token: 'secret-jwt-token',
-  database: 'mongodb://localhost:27017/koa-server-dev'
+  database: 'mongodb://localhost:27017/koa-server-dev',
+  env: 'dev'
 }

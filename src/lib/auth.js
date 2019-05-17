@@ -1,3 +1,7 @@
+/*
+  Retrieves the JWT token from the header of the API request.
+*/
+
 module.exports = function getToken (ctx) {
   const header = ctx.request.header.authorization
   if (!header) {
