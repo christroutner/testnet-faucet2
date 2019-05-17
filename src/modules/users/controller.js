@@ -16,6 +16,7 @@ const User = require('../../models/users')
  *
  * @apiSuccess {Object}   users           User object
  * @apiSuccess {ObjectId} users._id       User id
+ * @apiSuccess {String}   user.type       User type (admin or user)
  * @apiSuccess {String}   users.name      User name
  * @apiSuccess {String}   users.username  User username
  *
@@ -40,6 +41,10 @@ const User = require('../../models/users')
  */
 async function createUser (ctx) {
   const user = new User(ctx.request.body.user)
+
+  // Enforce default value of 'user'
+  user.type = 'user'
+
   try {
     await user.save()
   } catch (err) {
@@ -69,6 +74,7 @@ async function createUser (ctx) {
  *
  * @apiSuccess {Object[]} users           Array of user objects
  * @apiSuccess {ObjectId} users._id       User id
+ * @apiSuccess {String}   user.type       User type (admin or user)
  * @apiSuccess {String}   users.name      User name
  * @apiSuccess {String}   users.username  User username
  *
@@ -101,6 +107,7 @@ async function getUsers (ctx) {
  *
  * @apiSuccess {Object}   users           User object
  * @apiSuccess {ObjectId} users._id       User id
+ * @apiSuccess {String}   user.type       User type (admin or user)
  * @apiSuccess {String}   users.name      User name
  * @apiSuccess {String}   users.username  User username
  *
@@ -153,6 +160,7 @@ async function getUser (ctx, next) {
  *
  * @apiSuccess {Object}   users           User object
  * @apiSuccess {ObjectId} users._id       User id
+ * @apiSuccess {String}   user.type      User type (admin or user)
  * @apiSuccess {String}   users.name      Updated name
  * @apiSuccess {String}   users.username  Updated username
  *
@@ -180,7 +188,15 @@ async function getUser (ctx, next) {
 async function updateUser (ctx) {
   const user = ctx.body.user
 
+  // Save a copy of the original user type.
+  const userType = user.type
+
   Object.assign(user, ctx.request.body.user)
+
+  // Unless the calling user is an admin, they can not change the user type.
+  if (userType !== 'admin') {
+    user.type = userType
+  }
 
   await user.save()
 

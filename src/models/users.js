@@ -4,7 +4,7 @@ const config = require('../../config')
 const jwt = require('jsonwebtoken')
 
 const User = new mongoose.Schema({
-  type: { type: String, default: 'User' },
+  type: { type: String, default: 'user' },
   name: { type: String },
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true }
@@ -23,16 +23,16 @@ User.pre('save', function preSave (next) {
       resolve(salt)
     })
   })
-  .then(salt => {
-    bcrypt.hash(user.password, salt, (err, hash) => {
-      if (err) { throw new Error(err) }
+    .then(salt => {
+      bcrypt.hash(user.password, salt, (err, hash) => {
+        if (err) { throw new Error(err) }
 
-      user.password = hash
+        user.password = hash
 
-      next(null)
+        next(null)
+      })
     })
-  })
-  .catch(err => next(err))
+    .catch(err => next(err))
 })
 
 User.methods.validatePassword = function validatePassword (password) {

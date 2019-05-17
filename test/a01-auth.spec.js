@@ -1,25 +1,16 @@
 const app = require('../bin/server')
-// const supertest = require('supertest')
-// const expect = require('chai').expect
-const should = require('chai').should
-// const cleanDb = require('./utils').cleanDb
-// const authUser = require('./utils').authUser
 const utils = require('./utils')
-
+const config = require('../config')
 const rp = require('request-promise')
 const assert = require('chai').assert
- 
-should()
+
 // const request = supertest.agent(app.listen())
 const context = {}
 
-const LOCALHOST = 'http://localhost:5000'
-
-
+const LOCALHOST = `http://localhost:${config.port}`
 
 describe('Auth', () => {
   before(async () => {
-
     await app.startServer()
 
     utils.cleanDb()
@@ -60,7 +51,7 @@ describe('Auth', () => {
 
         let result = await rp(options)
 
-          // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+        // console.log(`result: ${JSON.stringify(result, null, 2)}`)
 
         console.log(`result stringified: ${JSON.stringify(result, null, 2)}`)
         assert(false, 'Unexpected result')
@@ -95,10 +86,18 @@ describe('Auth', () => {
         // console.log(`result: ${JSON.stringify(result, null, 2)}`)
 
         assert(result.statusCode === 200, 'Status Code 200 expected.')
-        assert(result.body.user.username === 'test', 'Username of test expected')
-        assert(result.body.user.password === undefined, 'Password expected to be omited')
+        assert(
+          result.body.user.username === 'test',
+          'Username of test expected'
+        )
+        assert(
+          result.body.user.password === undefined,
+          'Password expected to be omited'
+        )
       } catch (err) {
-        console.log('Error authenticating test user: ' + JSON.stringify(err, null, 2))
+        console.log(
+          'Error authenticating test user: ' + JSON.stringify(err, null, 2)
+        )
         throw err
       }
     })

@@ -8,7 +8,7 @@ const passport = require('koa-passport')
 const mount = require('koa-mount')
 const serve = require('koa-static')
 const cors = require('kcors')
-
+const adminLib = require('../src/lib/admin')
 const config = require('../config')
 const errorMiddleware = require('../src/middleware')
 
@@ -47,11 +47,12 @@ async function startServer () {
 
   // MIDDLEWARE END
 
-  // app.listen(config.port, () => {
-  //  console.log(`Server started on ${config.port}`)
-  // })
   await app.listen(config.port)
   console.log(`Server started on ${config.port}`)
+
+  // Create the system admin user.
+  const success = await adminLib.createSystemUser()
+  if (success) console.log(`System admin user created.`)
 
   return app
 }
