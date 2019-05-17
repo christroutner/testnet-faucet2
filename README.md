@@ -1,5 +1,5 @@
 # koa-api-boilerplate
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com) [![Coverage Status](https://coveralls.io/repos/github/christroutner/babel-free-koa2-api-boilerplate/badge.svg?branch=unstable)](https://coveralls.io/github/christroutner/babel-free-koa2-api-boilerplate?branch=unstable) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) [![Greenkeeper badge](https://badges.greenkeeper.io/christroutner/babel-free-koa2-api-boilerplate.svg)](https://greenkeeper.io/)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com) [![Coverage Status](https://coveralls.io/repos/github/christroutner/babel-free-koa2-api-boilerplate/badge.svg?branch=unstable)](https://coveralls.io/github/christroutner/babel-free-koa2-api-boilerplate?branch=unstable) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) [![Greenkeeper badge](https://badges.greenkeeper.io/christroutner/koa-api-boilerplate.svg)](https://greenkeeper.io/)
 
 
 This repository is a boilerplate for building APIs with
@@ -17,6 +17,10 @@ It makes the following modifications:
 - Configured for Travis CI (continuous integration), Coveralls (code coverage), Green Keeper (automated dependency management), and Semantic Release (automated versioning).
 
 - 'Production' environment is targeted for packaging as a Docker container.
+
+- 'admin' user type added in addition to standard 'user' type. Allows the creation
+of private vs public APIs that only be accessed by an admin. Useful for privileged
+commands like updating and deleting other users.
 
 ## Features
 This project covers basic necessities of most APIs.
@@ -54,6 +58,7 @@ git clone https://github.com/christroutner/koa-api-boilerplate
 ├── production               # Dockerfile for build production container
 |
 ├── src                      # Source code
+│   ├── lib                  # Business logic libraries
 │   ├── modules
 │   │   ├── controller.js    # Module-specific controllers
 │   │   └── router.js        # Router definitions for module
