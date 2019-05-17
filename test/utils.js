@@ -61,8 +61,77 @@ async function createUser (userObj) {
   }
 }
 
+async function loginTestUser () {
+  try {
+    const options = {
+      method: 'POST',
+      uri: `${LOCALHOST}/auth`,
+      resolveWithFullResponse: true,
+      json: true,
+      body: {
+        username: 'test',
+        password: 'pass'
+      }
+    }
+
+    let result = await rp(options)
+
+    // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+
+    const retObj = {
+      token: result.body.token,
+      user: result.body.user.username,
+      id: result.body.user._id.toString()
+    }
+
+    return retObj
+  } catch (err) {
+    console.log('Error authenticating test user: ' + JSON.stringify(err, null, 2))
+    throw err
+  }
+}
+
+async function loginAdminUser () {
+  try {
+    process.env.NODE_ENV = process.env.NODE_ENV || 'dev'
+    console.log(`env: ${process.env.NODE_ENV}`)
+
+    const FILENAME = `../config/system-user-${process.env.NODE_ENV}.json`
+    const adminUserData = require(FILENAME)
+    console.log(`adminUserData: ${JSON.stringify(adminUserData, null, 2)}`)
+
+    const options = {
+      method: 'POST',
+      uri: `${LOCALHOST}/auth`,
+      resolveWithFullResponse: true,
+      json: true,
+      body: {
+        username: adminUserData.username,
+        password: adminUserData.password
+      }
+    }
+
+    let result = await rp(options)
+
+    // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+
+    const retObj = {
+      token: result.body.token,
+      user: result.body.user.username,
+      id: result.body.user._id.toString()
+    }
+
+    return retObj
+  } catch (err) {
+    console.log('Error authenticating test admin user: ' + JSON.stringify(err, null, 2))
+    throw err
+  }
+}
+
 module.exports = {
   cleanDb,
   authUser,
-  createUser
+  createUser,
+  loginTestUser,
+  loginAdminUser
 }
