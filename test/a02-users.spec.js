@@ -20,9 +20,16 @@ describe('Users', () => {
       password: 'pass2'
     }
     const testUser = await testUtils.createUser(userObj)
+    console.log(`testUser: ${JSON.stringify(testUser, null, 2)}`)
 
     context.user2 = testUser.user
     context.token2 = testUser.token
+    context.id2 = testUser.user._id
+
+    // Get the JWT used to log in as the admin 'system' user.
+    const adminJWT = await testUtils.getAdminJWT()
+    console.log(`adminJWT: ${adminJWT}`)
+    context.adminJWT = adminJWT
   })
 
   describe('POST /users', () => {
@@ -476,7 +483,7 @@ describe('Users', () => {
       }
     })
 
-    it('should delete user', async () => {
+    it('should delete own user', async () => {
       const {
         user: { _id },
         token
@@ -495,6 +502,27 @@ describe('Users', () => {
 
       const result = await rp(options)
       // console.log(`result: ${util.inspect(result.body)}`)
+
+      assert.equal(result.body.success, true)
+    })
+
+    it('should delete other account when admin', async () => {
+      const id = context.id2
+      const adminJWT = context.adminJWT
+
+      const options = {
+        method: 'DELETE',
+        uri: `${LOCALHOST}/users/${id}`,
+        resolveWithFullResponse: true,
+        json: true,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${adminJWT}`
+        }
+      }
+
+      const result = await rp(options)
+      console.log(`result: ${util.inspect(result.body)}`)
 
       assert.equal(result.body.success, true)
     })

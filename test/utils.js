@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const rp = require('request-promise')
+const config = require('../config')
 
 const LOCALHOST = 'http://localhost:5000'
 
@@ -128,10 +129,28 @@ async function loginAdminUser () {
   }
 }
 
+// Retrieve the admin user JWT token from the JSON file it's saved at.
+async function getAdminJWT () {
+  try {
+    // process.env.KOA_ENV = process.env.KOA_ENV || 'dev'
+    // console.log(`env: ${process.env.KOA_ENV}`)
+
+    const FILENAME = `../config/system-user-test.json`
+    const adminUserData = require(FILENAME)
+    // console.log(`adminUserData: ${JSON.stringify(adminUserData, null, 2)}`)
+
+    return adminUserData.token
+  } catch (err) {
+    console.error('Error in test/utils.js/getAdminJWT()')
+    throw err
+  }
+}
+
 module.exports = {
   cleanDb,
   authUser,
   createUser,
   loginTestUser,
-  loginAdminUser
+  loginAdminUser,
+  getAdminJWT
 }
