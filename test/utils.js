@@ -5,10 +5,10 @@ const config = require('../config')
 const LOCALHOST = 'http://localhost:5000'
 
 // Remove all collections from the DB.
-function cleanDb () {
+async function cleanDb () {
   for (const collection in mongoose.connection.collections) {
     if (mongoose.connection.collections.hasOwnProperty(collection)) {
-      mongoose.connection.collections[collection].deleteMany()
+      await mongoose.connection.collections[collection].deleteMany()
     }
   }
 }

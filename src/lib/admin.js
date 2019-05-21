@@ -126,7 +126,7 @@ async function loginAdmin () {
   try {
     // Read the exising file
     existingUser = await jsonFiles.readJSON(JSON_PATH)
-    // console.log(`existingUser: ${JSON.stringify(existingUser, null, 2)}`)
+    console.log(`existingUser: ${JSON.stringify(existingUser, null, 2)}`)
 
     // Log in as the user.
     let options = {

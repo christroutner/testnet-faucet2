@@ -11,7 +11,7 @@ const LOCALHOST = `http://localhost:${config.port}`
 
 describe('Auth', () => {
   before(async () => {
-    utils.cleanDb() // This should be first instruction.
+    // await utils.cleanDb() // This should be first instruction.
 
     await app.startServer() // This should be second instruction.
 
