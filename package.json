@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "KOA_ENV=test nyc --reporter=text --timeout 15000 ./node_modules/.bin/mocha --exit",
+    "test": "npm run prep-test && KOA_ENV=test nyc --reporter=text --timeout 15000 ./node_modules/.bin/mocha --exit",
     "lint": "eslint src/**/*.js",
     "docs": "./node_modules/.bin/apidoc -i src/ -o docs",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "coverage:report": "nyc --reporter=html mocha --exit"
+    "coverage:report": "nyc --reporter=html mocha --exit",
+    "prep-test":"node util/users/delete-all-test-users.js"
   },
   "keywords": [
     "koa-api-boilerplate",

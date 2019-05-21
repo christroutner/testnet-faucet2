@@ -102,16 +102,17 @@ async function ensureTargetUserOrAdmin (ctx, next) {
   // console.log(`ctx.state.user: ${JSON.stringify(ctx.state.user, null, 2)}`)
   // Ensure the calling user and the target user are the same.
   if (ctx.state.user._id.toString() !== targetId.toString()) {
-    console.log(`Calling user and target user do not match!`)
-    console.log(`Calling user: ${ctx.state.user._id}`)
-    console.log(`Target user: ${targetId}`)
+    // console.log(`Calling user and target user do not match!`)
+    // console.log(`Calling user: ${ctx.state.user._id}`)
+    // console.log(`Target user: ${targetId}`)
 
     // If they don't match, then the calling user better be an admin.
     if (ctx.state.user.type !== 'admin') {
       ctx.throw(401, 'not admin')
-    } else {
-      console.log(`It's ok. The user is an admin.`)
     }
+    // else {
+    // console.log(`It's ok. The user is an admin.`)
+    // }
   }
 
   return next()
