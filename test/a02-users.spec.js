@@ -13,7 +13,7 @@ const context = {}
 
 describe('Users', () => {
   before(async () => {
-    console.log(`config: ${JSON.stringify(config, null, 2)}`)
+    // console.log(`config: ${JSON.stringify(config, null, 2)}`)
 
     // Create a second test user.
     const userObj = {
@@ -21,7 +21,7 @@ describe('Users', () => {
       password: 'pass2'
     }
     const testUser = await testUtils.createUser(userObj)
-    console.log(`testUser2: ${JSON.stringify(testUser, null, 2)}`)
+    // console.log(`testUser2: ${JSON.stringify(testUser, null, 2)}`)
 
     context.user2 = testUser.user
     context.token2 = testUser.token
@@ -29,7 +29,7 @@ describe('Users', () => {
 
     // Get the JWT used to log in as the admin 'system' user.
     const adminJWT = await testUtils.getAdminJWT()
-    console.log(`adminJWT: ${adminJWT}`)
+    // console.log(`adminJWT: ${adminJWT}`)
     context.adminJWT = adminJWT
 
     // const admin = await testUtils.loginAdminUser()
@@ -535,7 +535,7 @@ describe('Users', () => {
       }
 
       const result = await rp(options)
-      console.log(`result: ${util.inspect(result.body)}`)
+      // console.log(`result: ${util.inspect(result.body)}`)
 
       assert.equal(result.body.success, true)
     })

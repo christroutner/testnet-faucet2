@@ -53,17 +53,13 @@ async function createSystemUser () {
 
     // Change the user type to admin
     user.type = 'admin'
-    console.log(`user: ${JSON.stringify(user, null, 2)}`)
+    // console.log(`user: ${JSON.stringify(user, null, 2)}`)
 
     // Save the user model.
-    try {
-      await user.save()
-    } catch (err) {
-      console.error(`Error trying to save admin user: `, err)
-    }
+    await user.save()
 
-    console.log(`admin user created: ${JSON.stringify(result.body, null, 2)}`)
-    console.log(`with password: ${context.password}`)
+    // console.log(`admin user created: ${JSON.stringify(result.body, null, 2)}`)
+    // console.log(`with password: ${context.password}`)
 
     // Write out the system user information to a JSON file that external
     // applications like the Task Manager and the test scripts can access.
@@ -126,7 +122,7 @@ async function loginAdmin () {
   try {
     // Read the exising file
     existingUser = await jsonFiles.readJSON(JSON_PATH)
-    console.log(`existingUser: ${JSON.stringify(existingUser, null, 2)}`)
+    // console.log(`existingUser: ${JSON.stringify(existingUser, null, 2)}`)
 
     // Log in as the user.
     let options = {
@@ -144,9 +140,9 @@ async function loginAdmin () {
 
     return result
   } catch (err) {
-    console.error(`Error in admin.js/loginAdmin().`, err)
+    console.error(`Error in admin.js/loginAdmin().`)
 
-    console.error(`existingUser: ${JSON.stringify(existingUser, null, 2)}`)
+    // console.error(`existingUser: ${JSON.stringify(existingUser, null, 2)}`)
 
     throw err
   }
