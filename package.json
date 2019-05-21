@@ -10,7 +10,7 @@
     "docs": "./node_modules/.bin/apidoc -i src/ -o docs",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coverage:report": "nyc --reporter=html mocha --exit",
-    "prep-test":"node util/users/delete-all-test-users.js"
+    "prep-test": "node util/users/delete-all-test-users.js"
   },
   "keywords": [
     "koa-api-boilerplate",
@@ -48,7 +48,9 @@
     "mongoose": "^5.5.4",
     "passport-local": "^1.0.0",
     "request": "^2.85.0",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^3.9.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
