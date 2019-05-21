@@ -14,6 +14,7 @@ const cors = require('kcors')
 const config = require('../config') // this first.
 const adminLib = require('../src/lib/admin')
 const errorMiddleware = require('../src/middleware')
+const wlogger = require('../src/lib/wlogger')
 
 async function startServer () {
   // Create a Koa instance.
@@ -51,6 +52,7 @@ async function startServer () {
   // MIDDLEWARE END
 
   console.log(`Running server in environment: ${config.env}`)
+  wlogger.info(`Running server in environment: ${config.env}`)
 
   await app.listen(config.port)
   console.log(`Server started on ${config.port}`)

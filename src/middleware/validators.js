@@ -2,6 +2,7 @@ const User = require('../models/users')
 const config = require('../../config')
 const getToken = require('../lib/auth')
 const jwt = require('jsonwebtoken')
+const wlogger = require('../lib/wlogger')
 
 async function ensureUser (ctx, next) {
   // console.log(`getToken: ${typeof (getToken)}`)
@@ -102,17 +103,14 @@ async function ensureTargetUserOrAdmin (ctx, next) {
   // console.log(`ctx.state.user: ${JSON.stringify(ctx.state.user, null, 2)}`)
   // Ensure the calling user and the target user are the same.
   if (ctx.state.user._id.toString() !== targetId.toString()) {
-    // console.log(`Calling user and target user do not match!`)
-    // console.log(`Calling user: ${ctx.state.user._id}`)
-    // console.log(`Target user: ${targetId}`)
+    wlogger.verbose(`Calling user and target user do not match! Calling user: ${ctx.state.user._id}, Target user: ${targetId}`)
 
     // If they don't match, then the calling user better be an admin.
     if (ctx.state.user.type !== 'admin') {
       ctx.throw(401, 'not admin')
+    } else {
+      wlogger.verbose(`It's ok. The user is an admin.`)
     }
-    // else {
-    // console.log(`It's ok. The user is an admin.`)
-    // }
   }
 
   return next()
