@@ -22,6 +22,9 @@ It makes the following modifications:
 of private vs public APIs that only be accessed by an admin. Useful for privileged
 commands like updating and deleting other users.
 
+ - Winston logging integrated for daily rotated logs and a maximum size of
+ 1 megabyte.
+
 ## Features
 This project covers basic necessities of most APIs.
 * Authentication (passport & jwt)
