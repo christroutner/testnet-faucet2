@@ -11,19 +11,9 @@ const LOCALHOST = `http://localhost:${config.port}`
 
 describe('Auth', () => {
   before(async () => {
-    await app.startServer()
+    utils.cleanDb() // This should be first instruction.
 
-    utils.cleanDb()
-
-    /*
-    authUser(request, (err, { user, token }) => {
-      if (err) { return done(err) }
-
-      context.user = user
-      context.token = token
-      done()
-    })
-    */
+    await app.startServer() // This should be second instruction.
 
     const userObj = {
       username: 'test',

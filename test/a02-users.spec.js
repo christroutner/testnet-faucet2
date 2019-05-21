@@ -2,6 +2,7 @@ const testUtils = require('./utils')
 const rp = require('request-promise')
 const assert = require('chai').assert
 const config = require('../config')
+const adminLib = require('../src/lib/admin')
 
 const util = require('util')
 util.inspect.defaultOptions = { depth: 1 }
@@ -12,7 +13,7 @@ const context = {}
 
 describe('Users', () => {
   before(async () => {
-    testUtils.cleanDb()
+    console.log(`config: ${JSON.stringify(config, null, 2)}`)
 
     // Create a second test user.
     const userObj = {
@@ -20,7 +21,7 @@ describe('Users', () => {
       password: 'pass2'
     }
     const testUser = await testUtils.createUser(userObj)
-    console.log(`testUser: ${JSON.stringify(testUser, null, 2)}`)
+    console.log(`testUser2: ${JSON.stringify(testUser, null, 2)}`)
 
     context.user2 = testUser.user
     context.token2 = testUser.token
@@ -30,6 +31,12 @@ describe('Users', () => {
     const adminJWT = await testUtils.getAdminJWT()
     console.log(`adminJWT: ${adminJWT}`)
     context.adminJWT = adminJWT
+
+    // const admin = await testUtils.loginAdminUser()
+    // context.adminJWT = admin.token
+
+    // const admin = await adminLib.loginAdmin()
+    // console.log(`admin: ${JSON.stringify(admin, null, 2)}`)
   })
 
   describe('POST /users', () => {
@@ -81,8 +88,14 @@ describe('Users', () => {
         context.token = result.body.token
 
         assert(result.statusCode === 200, 'Status Code 200 expected.')
-        assert(result.body.user.username === 'supercoolname', 'Username of test expected')
-        assert(result.body.user.password === undefined, 'Password expected to be omited')
+        assert(
+          result.body.user.username === 'supercoolname',
+          'Username of test expected'
+        )
+        assert(
+          result.body.user.password === undefined,
+          'Password expected to be omited'
+        )
         assert.property(result.body, 'token', 'Token property exists.')
       } catch (err) {
         console.log(

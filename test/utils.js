@@ -13,21 +13,6 @@ function cleanDb () {
   }
 }
 
-function authUser (agent, callback) {
-  agent
-    .post('/users')
-    .set('Accept', 'application/json')
-    .send({ user: { username: 'test', password: 'pass' } })
-    .end((err, res) => {
-      if (err) { return callback(err) }
-
-      callback(null, {
-        user: res.body.user,
-        token: res.body.token
-      })
-    })
-}
-
 // This function is used to create new users.
 // userObj = {
 //   username,
@@ -94,10 +79,7 @@ async function loginTestUser () {
 
 async function loginAdminUser () {
   try {
-    process.env.NODE_ENV = process.env.NODE_ENV || 'dev'
-    console.log(`env: ${process.env.NODE_ENV}`)
-
-    const FILENAME = `../config/system-user-${process.env.NODE_ENV}.json`
+    const FILENAME = `../config/system-user-${config.env}.json`
     const adminUserData = require(FILENAME)
     console.log(`adminUserData: ${JSON.stringify(adminUserData, null, 2)}`)
 
@@ -135,7 +117,7 @@ async function getAdminJWT () {
     // process.env.KOA_ENV = process.env.KOA_ENV || 'dev'
     // console.log(`env: ${process.env.KOA_ENV}`)
 
-    const FILENAME = `../config/system-user-test.json`
+    const FILENAME = `../config/system-user-${config.env}.json`
     const adminUserData = require(FILENAME)
     // console.log(`adminUserData: ${JSON.stringify(adminUserData, null, 2)}`)
 
@@ -148,7 +130,6 @@ async function getAdminJWT () {
 
 module.exports = {
   cleanDb,
-  authUser,
   createUser,
   loginTestUser,
   loginAdminUser,
