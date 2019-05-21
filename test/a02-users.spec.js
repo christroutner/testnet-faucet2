@@ -393,7 +393,7 @@ describe('Users', () => {
       }
     })
 
-    it('should not be able to update other user', async () => {
+    it('should not be able to update other user when not admin', async () => {
       try {
         const options = {
           method: 'PUT',
@@ -423,6 +423,31 @@ describe('Users', () => {
           throw err
         }
       }
+    })
+
+    it('should be able to update other user when admin', async () => {
+      const adminJWT = context.adminJWT
+
+      const options = {
+        method: 'PUT',
+        uri: `${LOCALHOST}/users/${context.user2._id.toString()}`,
+        resolveWithFullResponse: true,
+        json: true,
+        headers: {
+          Authorization: `Bearer ${adminJWT}`
+        },
+        body: {
+          user: {
+            name: 'This should work'
+          }
+        }
+      }
+
+      let result = await rp(options)
+      // console.log(`result stringified: ${JSON.stringify(result, null, 2)}`)
+
+      const userName = result.body.user.name
+      assert.equal(userName, 'This should work')
     })
   })
 
@@ -519,7 +544,7 @@ describe('Users', () => {
       assert.equal(result.body.success, true)
     })
 
-    it('should delete other account when admin', async () => {
+    it('should be able to delete other users when admin', async () => {
       const id = context.id2
       const adminJWT = context.adminJWT
 
