@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const rp = require('request-promise')
 const config = require('../config')
 
-const LOCALHOST = 'http://localhost:5000'
+const LOCALHOST = `http://localhost:${config.port}`
 
 // Remove all collections from the DB.
 async function cleanDb () {
