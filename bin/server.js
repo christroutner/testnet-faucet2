@@ -34,7 +34,8 @@ async function startServer () {
   app.use(errorMiddleware())
 
   // Used to generate the docs.
-  app.use(convert(mount('/docs', serve(`${process.cwd()}/docs`))))
+  // app.use(convert(mount('/docs', serve(`${process.cwd()}/docs`))))
+  app.use(mount('/', serve(`${process.cwd()}/docs`)))
 
   // User Authentication
   require('../config/passport')
