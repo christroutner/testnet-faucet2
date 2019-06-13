@@ -3,7 +3,6 @@ const User = require('../../models/users')
 /**
  * @api {post} /users Create a new user
  * @apiPermission
- * @apiVersion 1.0.0
  * @apiName CreateUser
  * @apiGroup Users
  *
@@ -65,7 +64,6 @@ async function createUser (ctx) {
 /**
  * @api {get} /users Get all users
  * @apiPermission user
- * @apiVersion 1.0.0
  * @apiName GetUsers
  * @apiGroup Users
  *
@@ -98,7 +96,6 @@ async function getUsers (ctx) {
 /**
  * @api {get} /users/:id Get user by id
  * @apiPermission user
- * @apiVersion 1.0.0
  * @apiName GetUser
  * @apiGroup Users
  *
@@ -147,7 +144,6 @@ async function getUser (ctx, next) {
 /**
  * @api {put} /users/:id Update a user
  * @apiPermission
- * @apiVersion 1.0.0
  * @apiName UpdateUser
  * @apiGroup Users
  *
@@ -208,7 +204,6 @@ async function updateUser (ctx) {
 /**
  * @api {delete} /users/:id Delete a user
  * @apiPermission
- * @apiVersion 1.0.0
  * @apiName DeleteUser
  * @apiGroup Users
  *

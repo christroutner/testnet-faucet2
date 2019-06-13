@@ -22,9 +22,6 @@ WORKDIR /home/safeuser
 #RUN echo "export PATH=~/.npm-global/bin:$PATH" >> /home/safeuser/.profile
 #RUN runuser -l safeuser -c "npm config set prefix '~/.npm-global'"
 
-# Expose the port the API will be served on.
-EXPOSE 5000
-
 # Switch to user account.
 USER safeuser
 # Prep 'sudo' commands.
@@ -41,14 +38,18 @@ RUN mkdir keys
 WORKDIR /home/safeuser/koa
 
 # For development: switch to unstable branch
-RUN git checkout docker
+# RUN git checkout unstable
 
 # Install dependencies
 RUN npm install
 
+# Generate the API docs
+RUN npm run docs
+
 VOLUME /home/safeuser/keys
 
-EXPOSE 3000
+# Expose the port the API will be served on.
+EXPOSE 5001
 
 # Start the application.
 COPY start-production start-production

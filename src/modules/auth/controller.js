@@ -14,7 +14,6 @@ const passport = require('koa-passport')
 
 /**
  * @api {post} /auth Authenticate user
- * @apiVersion 1.0.0
  * @apiName AuthUser
  * @apiGroup Auth
  *
