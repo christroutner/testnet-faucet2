@@ -43,6 +43,9 @@ This project covers basic necessities of most APIs.
 ## Installation
 ```bash
 git clone https://github.com/christroutner/koa-api-boilerplate
+cd koa-api-boilerplate
+npm install
+npm start
 ```
 
 ## Structure
