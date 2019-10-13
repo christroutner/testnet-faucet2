@@ -9,8 +9,6 @@ module.exports.routes = [
   {
     method: 'POST',
     route: '/',
-    handlers: [
-      auth.authUser
-    ]
+    handlers: [auth.authUser]
   }
 ]
