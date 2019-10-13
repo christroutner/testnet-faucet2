@@ -8,42 +8,26 @@ module.exports.routes = [
   {
     method: 'POST',
     route: '/',
-    handlers: [
-      user.createUser
-    ]
+    handlers: [user.createUser]
   },
   {
     method: 'GET',
     route: '/',
-    handlers: [
-      validator.ensureUser,
-      user.getUsers
-    ]
+    handlers: [validator.ensureUser, user.getUsers]
   },
   {
     method: 'GET',
     route: '/:id',
-    handlers: [
-      validator.ensureUser,
-      user.getUser
-    ]
+    handlers: [validator.ensureUser, user.getUser]
   },
   {
     method: 'PUT',
     route: '/:id',
-    handlers: [
-      validator.ensureTargetUserOrAdmin,
-      user.getUser,
-      user.updateUser
-    ]
+    handlers: [validator.ensureTargetUserOrAdmin, user.getUser, user.updateUser]
   },
   {
     method: 'DELETE',
     route: '/:id',
-    handlers: [
-      validator.ensureTargetUserOrAdmin,
-      user.getUser,
-      user.deleteUser
-    ]
+    handlers: [validator.ensureTargetUserOrAdmin, user.getUser, user.deleteUser]
   }
 ]
