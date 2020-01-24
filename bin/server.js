@@ -42,6 +42,9 @@ async function startServer () {
   // Used to generate the docs.
   app.use(mount('/', serve(`${process.cwd()}/docs`)))
 
+  // Mount the page for displaying logs.
+  app.use(mount('/logs', serve(`${process.cwd()}/config/logs`)))
+
   // User Authentication
   require('../config/passport')
   app.use(passport.initialize())
