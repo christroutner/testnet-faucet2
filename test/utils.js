@@ -27,7 +27,7 @@ async function createUser (userObj) {
       json: true,
       body: {
         user: {
-          username: userObj.username,
+          email: userObj.email,
           password: userObj.password
         }
       }
@@ -55,7 +55,7 @@ async function loginTestUser () {
       resolveWithFullResponse: true,
       json: true,
       body: {
-        username: 'test',
+        email: 'test@test.com',
         password: 'pass'
       }
     }
@@ -89,7 +89,7 @@ async function loginAdminUser () {
       resolveWithFullResponse: true,
       json: true,
       body: {
-        username: adminUserData.username,
+        email: adminUserData.email,
         password: adminUserData.password
       }
     }

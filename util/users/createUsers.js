@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const config = require('../../config')
 
-const USERNAME = 'test'
+const EMAIL = 'test@test.com'
 const PASSWORD = 'pass'
 
 async function addUser () {
@@ -14,7 +14,7 @@ async function addUser () {
   const User = require('../../src/models/users')
 
   const userData = {
-    username: USERNAME,
+    email: EMAIL,
     password: PASSWORD
   }
 
@@ -27,7 +27,7 @@ async function addUser () {
 
   await mongoose.connection.close()
 
-  console.log(`User ${USERNAME} created.`)
+  console.log(`User ${EMAIL} created.`)
 }
 addUser()
 

@@ -6,8 +6,21 @@ const jwt = require('jsonwebtoken')
 const User = new mongoose.Schema({
   type: { type: String, default: 'user' },
   name: { type: String },
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
+  username: { type: String },
+  password: { type: String, required: true },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: {
+      validator: function (email) {
+        // eslint-disable-next-line no-useless-escape
+        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+      },
+      message: props => `${props.value} is not a valid Email format!`
+    }
+
+  }
 })
 
 User.pre('save', function preSave (next) {

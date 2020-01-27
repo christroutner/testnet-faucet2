@@ -37,14 +37,14 @@ async function createSystemUser () {
       json: true,
       body: {
         user: {
-          username: 'system',
+          email: 'system@system.com',
           password: context.password
         }
       }
     }
     let result = await rp(options)
 
-    context.username = result.body.user.username
+    context.email = result.body.user.email
     context.id = result.body.user._id
     context.token = result.body.token
 
@@ -131,7 +131,7 @@ async function loginAdmin () {
       resolveWithFullResponse: true,
       json: true,
       body: {
-        username: 'system',
+        email: 'system@system.com',
         password: existingUser.password
       }
     }
