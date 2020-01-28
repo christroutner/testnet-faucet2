@@ -16,11 +16,11 @@ describe('Auth', () => {
     await app.startServer() // This should be second instruction.
 
     const userObj = {
-      username: 'test',
+      email: 'test@test.com',
       password: 'pass'
     }
     const testUser = await utils.createUser(userObj)
-
+    console.log(`TestUser : ${testUser}`)
     context.user = testUser.user
     context.token = testUser.token
   })
@@ -34,7 +34,7 @@ describe('Auth', () => {
           resolveWithFullResponse: true,
           json: true,
           body: {
-            username: 'test',
+            email: 'test@test.com',
             password: 'wrongpassword'
           }
         }
@@ -57,6 +57,33 @@ describe('Auth', () => {
         }
       }
     })
+    it('should throw 422 if email is wrong format', async () => {
+      try {
+        const options = {
+          method: 'POST',
+          uri: `${LOCALHOST}/auth`,
+          resolveWithFullResponse: true,
+          json: true,
+          body: {
+            email: 'wrongEmail',
+            password: 'wrongpassword'
+          }
+        }
+
+        await rp(options)
+        assert(false, 'Unexpected result')
+      } catch (err) {
+        if (err.statusCode === 422) {
+          assert(err.statusCode === 422, 'Error code 422 expected.')
+        } else if (err.statusCode === 401) {
+          assert(err.statusCode === 401, 'Error code 401 expected.')
+        } else {
+          console.error('Error: ', err)
+          console.log('Error stringified: ' + JSON.stringify(err, null, 2))
+          throw err
+        }
+      }
+    })
 
     it('should auth user', async () => {
       try {
@@ -66,7 +93,7 @@ describe('Auth', () => {
           resolveWithFullResponse: true,
           json: true,
           body: {
-            username: 'test',
+            email: 'test@test.com',
             password: 'pass'
           }
         }
@@ -77,8 +104,8 @@ describe('Auth', () => {
 
         assert(result.statusCode === 200, 'Status Code 200 expected.')
         assert(
-          result.body.user.username === 'test',
-          'Username of test expected'
+          result.body.user.email === 'test@test.com',
+          'Email of test expected'
         )
         assert(
           result.body.user.password === undefined,

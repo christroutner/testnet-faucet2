@@ -16,7 +16,7 @@ describe('Users', () => {
 
     // Create a second test user.
     const userObj = {
-      username: 'test2',
+      email: 'test2@test.com',
       password: 'pass2'
     }
     const testUser = await testUtils.createUser(userObj)
@@ -47,7 +47,7 @@ describe('Users', () => {
           resolveWithFullResponse: true,
           json: true,
           body: {
-            username: 'supercoolname'
+            email: 'test2@test.com'
           }
         }
 
@@ -76,7 +76,10 @@ describe('Users', () => {
           resolveWithFullResponse: true,
           json: true,
           body: {
-            user: { username: 'supercoolname', password: 'supersecretpassword' }
+            user: {
+              email: 'test3@test.com',
+              password: 'supersecretpassword'
+            }
           }
         }
 
@@ -88,8 +91,8 @@ describe('Users', () => {
 
         assert(result.statusCode === 200, 'Status Code 200 expected.')
         assert(
-          result.body.user.username === 'supercoolname',
-          'Username of test expected'
+          result.body.user.email === 'test3@test.com',
+          'Email of test expected'
         )
         assert(
           result.body.user.password === undefined,
@@ -274,7 +277,7 @@ describe('Users', () => {
       const user = result.body.user
       // console.log(`user: ${util.inspect(user)}`)
 
-      assert.hasAnyKeys(user, ['type', '_id', 'username'])
+      assert.hasAnyKeys(user, ['type', '_id', 'email'])
       assert.equal(user._id, _id)
       assert.notProperty(
         user,
@@ -343,7 +346,7 @@ describe('Users', () => {
           Authorization: `Bearer ${token}`
         },
         body: {
-          user: { username: 'updatedcoolname' }
+          user: { email: 'testToUpdate@test.com' }
         }
       }
 
@@ -351,14 +354,14 @@ describe('Users', () => {
       const user = result.body.user
       // console.log(`user: ${util.inspect(user)}`)
 
-      assert.hasAnyKeys(user, ['type', '_id', 'username'])
+      assert.hasAnyKeys(user, ['type', '_id', 'email'])
       assert.equal(user._id, _id)
       assert.notProperty(
         user,
         'password',
         'Password property should not be returned'
       )
-      assert.equal(user.username, 'updatedcoolname')
+      assert.equal(user.email, 'testToUpdate@test.com')
     })
 
     it('should not be able to update user type', async () => {
