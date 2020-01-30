@@ -1,5 +1,6 @@
 const validator = require('../../middleware/validators')
-const user = require('./controller')
+const CONTROLLER = require('./controller')
+const controller = new CONTROLLER()
 
 // export const baseUrl = '/users'
 module.exports.baseUrl = '/users'
@@ -8,26 +9,40 @@ module.exports.routes = [
   {
     method: 'POST',
     route: '/',
-    handlers: [user.createUser]
+    handlers: [controller.createUser]
   },
   {
     method: 'GET',
     route: '/',
-    handlers: [validator.ensureUser, user.getUsers]
+    handlers: [
+      validator.ensureUser,
+      controller.getUsers
+    ]
   },
   {
     method: 'GET',
     route: '/:id',
-    handlers: [validator.ensureUser, user.getUser]
+    handlers: [
+      validator.ensureUser,
+      controller.getUser
+    ]
   },
   {
     method: 'PUT',
     route: '/:id',
-    handlers: [validator.ensureTargetUserOrAdmin, user.getUser, user.updateUser]
+    handlers: [
+      validator.ensureTargetUserOrAdmin,
+      controller.getUser,
+      controller.updateUser
+    ]
   },
   {
     method: 'DELETE',
     route: '/:id',
-    handlers: [validator.ensureTargetUserOrAdmin, user.getUser, user.deleteUser]
+    handlers: [
+      validator.ensureTargetUserOrAdmin,
+      controller.getUser,
+      controller.deleteUser
+    ]
   }
 ]
