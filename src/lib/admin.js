@@ -10,8 +10,7 @@
 */
 
 'use strict'
-
-const rp = require('request-promise')
+const axios = require('axios').default
 const User = require('../models/users')
 const jsonFiles = require('./utils/json-files')
 const config = require('../../config')
@@ -32,21 +31,19 @@ async function createSystemUser () {
 
     const options = {
       method: 'POST',
-      uri: `${LOCALHOST}/users`,
-      resolveWithFullResponse: true,
-      json: true,
-      body: {
+      url: `${LOCALHOST}/users`,
+      data: {
         user: {
           email: 'system@system.com',
           password: context.password
         }
       }
     }
-    let result = await rp(options)
+    let result = await axios(options)
 
-    context.email = result.body.user.email
-    context.id = result.body.user._id
-    context.token = result.body.token
+    context.email = result.data.user.email
+    context.id = result.data.user._id
+    context.token = result.data.token
 
     // Get the mongoDB entry
     const user = await User.findById(context.id)
@@ -68,7 +65,7 @@ async function createSystemUser () {
     return context
   } catch (err) {
     // Handle existing system user.
-    if (err.statusCode === 422) {
+    if (err.response.status === 422) {
       try {
         // Delete the existing user
         await deleteExistingSystemUser()
@@ -92,23 +89,21 @@ async function deleteExistingSystemUser () {
   try {
     let result = await loginAdmin()
 
-    const token = result.body.token
-    const id = result.body.user._id.toString()
+    const token = result.data.token
+    const id = result.data.user._id.toString()
 
     // Delete the user.
     const options = {
       method: 'DELETE',
-      uri: `${LOCALHOST}/users/${id}`,
-      resolveWithFullResponse: true,
-      json: true,
+      url: `${LOCALHOST}/users/${id}`,
       headers: {
         Authorization: `Bearer ${token}`
       }
     }
-    result = await rp(options)
+    result = await axios(options)
     // console.log(`result2: ${JSON.stringify(result, null, 2)}`)
 
-    return result.body.success
+    return result.data.success
   } catch (err) {
     console.log(`Error in admin.js/deleteExistingSystemUser()`)
     throw err
@@ -127,15 +122,13 @@ async function loginAdmin () {
     // Log in as the user.
     let options = {
       method: 'POST',
-      uri: `${LOCALHOST}/auth`,
-      resolveWithFullResponse: true,
-      json: true,
-      body: {
+      url: `${LOCALHOST}/auth`,
+      data: {
         email: 'system@system.com',
         password: existingUser.password
       }
     }
-    let result = await rp(options)
+    let result = await axios(options)
     // console.log(`result1: ${JSON.stringify(result, null, 2)}`)
 
     return result
