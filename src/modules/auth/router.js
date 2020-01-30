@@ -1,6 +1,6 @@
 // import * as auth from './controller'
-const auth = require('./controller')
-
+const CONTROLLER = require('./controller')
+const controller = new CONTROLLER()
 // export const baseUrl = '/auth'
 module.exports.baseUrl = '/auth'
 
@@ -9,6 +9,6 @@ module.exports.routes = [
   {
     method: 'POST',
     route: '/',
-    handlers: [auth.authUser]
+    handlers: [controller.authUser]
   }
 ]

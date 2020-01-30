@@ -1,6 +1,12 @@
 const passport = require('koa-passport')
 
-/**
+let _this
+class Auth {
+  constructor () {
+    _this = this
+    this.passport = passport
+  }
+  /**
  * @apiDefine TokenError
  * @apiError Unauthorized Invalid JWT token
  *
@@ -12,7 +18,7 @@ const passport = require('koa-passport')
  *     }
  */
 
-/**
+  /**
  * @api {post} /auth Authenticate user
  * @apiName AuthUser
  * @apiGroup Auth
@@ -48,26 +54,29 @@ const passport = require('koa-passport')
  *       "error": "Unauthorized"
  *     }
  */
+  async authUser (ctx, next) {
+    try {
+      return _this.passport.authenticate('local', (err, user) => {
+        if (err) throw err
 
-async function authUser (ctx, next) {
-  return passport.authenticate('local', (err, user, info, status) => {
-    if (err) throw err
+        if (!user) {
+          ctx.throw(401)
+        }
 
-    if (!user) {
+        const token = user.generateToken()
+
+        const response = user.toJSON()
+
+        delete response.password
+
+        ctx.body = {
+          token,
+          user: response
+        }
+      })(ctx, next)
+    } catch (error) {
       ctx.throw(401)
     }
-
-    const token = user.generateToken()
-
-    const response = user.toJSON()
-
-    delete response.password
-
-    ctx.body = {
-      token,
-      user: response
-    }
-  })(ctx, next)
+  }
 }
-
-module.exports.authUser = authUser
+module.exports = Auth

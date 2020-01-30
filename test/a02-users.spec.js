@@ -65,8 +65,77 @@ describe('Users', () => {
         }
       }
     })
+    it('should reject signup  if no email property is provided', async () => {
+      try {
+        const options = {
+          method: 'POST',
+          uri: `${LOCALHOST}/users`,
+          resolveWithFullResponse: true,
+          json: true,
+          body: {
+            user: {
+              password: 'supersecretpassword'
+            }
+          }
+        }
 
-    it('should sign up', async () => {
+        await rp(options)
+      } catch (err) {
+        assert.equal(err.statusCode, 422)
+        assert.include(
+          err.message,
+          `Property 'email' must be a string`
+        )
+      }
+    })
+    it('should reject signup  if  email property  provided is wrong format', async () => {
+      try {
+        const options = {
+          method: 'POST',
+          uri: `${LOCALHOST}/users`,
+          resolveWithFullResponse: true,
+          json: true,
+          body: {
+            user: {
+              email: 'badEmailFormat',
+              password: 'test'
+            }
+          }
+        }
+
+        await rp(options)
+      } catch (err) {
+        assert.equal(err.statusCode, 422)
+        assert.include(
+          err.message,
+          `Property 'email' must be email format`
+        )
+      }
+    })
+    it('should reject signup  if no password property is provided', async () => {
+      try {
+        const options = {
+          method: 'POST',
+          uri: `${LOCALHOST}/users`,
+          resolveWithFullResponse: true,
+          json: true,
+          body: {
+            user: {
+              email: 'test2@test.com'
+            }
+          }
+        }
+
+        await rp(options)
+      } catch (err) {
+        assert.equal(err.statusCode, 422)
+        assert.include(
+          err.message,
+          `Property 'password' must be a string`
+        )
+      }
+    })
+    it('should signup of type user by default', async () => {
       try {
         const options = {
           method: 'post',
@@ -95,6 +164,8 @@ describe('Users', () => {
           'Password expected to be omited'
         )
         assert.property(result.data, 'token', 'Token property exists.')
+        assert.equal(result.data.user.type, 'user')
+
       } catch (err) {
         console.log(
           'Error authenticating test user: ' + JSON.stringify(err, null, 2)
@@ -370,7 +441,7 @@ describe('Users', () => {
       }
     })
 
-    it('should update user', async () => {
+    it('should update user with minimum inputs', async () => {
       const {
         user: { _id },
         token
@@ -401,6 +472,45 @@ describe('Users', () => {
       )
       assert.equal(user.email, 'testToUpdate@test.com')
     })
+    it('should update user with all inputs', async () => {
+      const {
+        user: { _id },
+        token
+      } = context
+
+      const options = {
+        method: 'PUT',
+        uri: `${LOCALHOST}/users/${_id}`,
+        resolveWithFullResponse: true,
+        json: true,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: {
+          user: {
+            email: 'testToUpdate@test.com',
+            name: 'my name',
+            username: 'myUsername'
+          }
+        }
+      }
+
+      const result = await rp(options)
+      const user = result.body.user
+      // console.log(`user: ${util.inspect(user)}`)
+
+      assert.hasAnyKeys(user, ['type', '_id', 'email', 'name'])
+      assert.equal(user._id, _id)
+      assert.notProperty(
+        user,
+        'password',
+        'Password property should not be returned'
+      )
+      assert.equal(user.name, 'my name')
+      assert.equal(user.email, 'testToUpdate@test.com')
+      assert.equal(user.username, 'myUsername')
+    })
 
     it('should not be able to update user type', async () => {
       try {
@@ -418,6 +528,7 @@ describe('Users', () => {
           }
         }
 
+
         let result = await axios(options)
 
         // console.log(`Users: ${JSON.stringify(result.data, null, 2)}`)
@@ -425,9 +536,11 @@ describe('Users', () => {
         assert(result.status === 200, 'Status Code 200 expected.')
         assert(result.data.user.type === 'user', 'Type should be unchanged.')
       } catch (err) {
-        console.error('Error: ', err)
-        console.log('Error stringified: ' + JSON.stringify(err, null, 2))
-        throw err
+        assert.equal(err.statusCode, 422)
+        assert.include(
+          err.message,
+          "Property 'type' just can change for Admin user"
+        )
       }
     })
 
@@ -484,6 +597,69 @@ describe('Users', () => {
 
       const userName = result.data.user.name
       assert.equal(userName, 'This should work')
+    })
+    it('should not be able to update if name property is wrong', async () => {
+      const {
+        user: { _id },
+        token
+      } = context
+
+      const options = {
+        method: 'PUT',
+        uri: `${LOCALHOST}/users/${_id}`,
+        resolveWithFullResponse: true,
+        json: true,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: {
+          user: {
+            email: 'testToUpdate@test.com',
+            name: {}
+          }
+        }
+      }
+      try {
+        const result = await rp(options)
+        const user = result.body.user
+        // console.log(`user: ${util.inspect(user)}`)
+
+        assert.hasAnyKeys(user, ['type', '_id', 'username'])
+        assert.equal(user._id, _id)
+        assert.notProperty(
+          user,
+          'password',
+          'Password property should not be returned'
+        )
+        assert.notEqual(user.username, 'updatedcoolname31')
+      } catch (error) {
+        assert.equal(error.statusCode, 422)
+        assert.include(error.message, "Property 'name' must be a string!")
+      }
+    })
+    it('should not be able to update  if  email property  provided is wrong format', async () => {
+      try {
+        const options = {
+          method: 'POST',
+          uri: `${LOCALHOST}/users`,
+          resolveWithFullResponse: true,
+          json: true,
+          body: {
+            user: {
+              email: 'badEmailFormat'
+            }
+          }
+        }
+
+        await rp(options)
+      } catch (err) {
+        assert.equal(err.statusCode, 422)
+        assert.include(
+          err.message,
+          `Property 'email' must be email format`
+        )
+      }
     })
   })
 
