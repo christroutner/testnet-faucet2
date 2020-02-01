@@ -80,7 +80,7 @@ describe('Users', () => {
         await axios(options)
         assert(false, 'Unexpected result')
       } catch (err) {
-        console.log('err', err)
+        // console.log('err', err)
         assert.equal(err.response.status, 422)
         assert.include(
           err.response.data,
