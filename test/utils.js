@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const rp = require('request-promise')
 const config = require('../config')
+const axios = require('axios').default
 
 const LOCALHOST = `http://localhost:${config.port}`
 
@@ -22,10 +22,8 @@ async function createUser (userObj) {
   try {
     const options = {
       method: 'POST',
-      uri: `${LOCALHOST}/users`,
-      resolveWithFullResponse: true,
-      json: true,
-      body: {
+      url: `${LOCALHOST}/users`,
+      data: {
         user: {
           email: userObj.email,
           password: userObj.password
@@ -33,11 +31,11 @@ async function createUser (userObj) {
       }
     }
 
-    let result = await rp(options)
+    let result = await axios(options)
 
     const retObj = {
-      user: result.body.user,
-      token: result.body.token
+      user: result.data.user,
+      token: result.data.token
     }
 
     return retObj
@@ -51,23 +49,21 @@ async function loginTestUser () {
   try {
     const options = {
       method: 'POST',
-      uri: `${LOCALHOST}/auth`,
-      resolveWithFullResponse: true,
-      json: true,
-      body: {
+      url: `${LOCALHOST}/auth`,
+      data: {
         email: 'test@test.com',
         password: 'pass'
       }
     }
 
-    let result = await rp(options)
+    let result = await axios(options)
 
-    // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+    // console.log(`result: ${JSON.stringify(result.data, null, 2)}`)
 
     const retObj = {
-      token: result.body.token,
-      user: result.body.user.username,
-      id: result.body.user._id.toString()
+      token: result.data.token,
+      user: result.data.user.username,
+      id: result.data.user._id.toString()
     }
 
     return retObj
@@ -85,23 +81,21 @@ async function loginAdminUser () {
 
     const options = {
       method: 'POST',
-      uri: `${LOCALHOST}/auth`,
-      resolveWithFullResponse: true,
-      json: true,
-      body: {
+      url: `${LOCALHOST}/auth`,
+      data: {
         email: adminUserData.email,
         password: adminUserData.password
       }
     }
 
-    let result = await rp(options)
+    let result = await axios(options)
 
-    // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+    // console.log(`result: ${JSON.stringify(result.data, null, 2)}`)
 
     const retObj = {
-      token: result.body.token,
-      user: result.body.user.username,
-      id: result.body.user._id.toString()
+      token: result.data.token,
+      user: result.data.user.username,
+      id: result.data.user._id.toString()
     }
 
     return retObj
