@@ -11,6 +11,7 @@
 
 'use strict'
 const axios = require('axios').default
+const mongoose = require('mongoose')
 const User = require('../models/users')
 const jsonFiles = require('./utils/json-files')
 const config = require('../../config')
@@ -87,23 +88,12 @@ async function createSystemUser () {
 
 async function deleteExistingSystemUser () {
   try {
-    let result = await loginAdmin()
+    mongoose.Promise = global.Promise
+    mongoose.set('useCreateIndex', true) // Stop deprecation warning.
 
-    const token = result.data.token
-    const id = result.data.user._id.toString()
+    await mongoose.connect(config.database, { useNewUrlParser: true, useUnifiedTopology: true })
 
-    // Delete the user.
-    const options = {
-      method: 'DELETE',
-      url: `${LOCALHOST}/users/${id}`,
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-    result = await axios(options)
-    // console.log(`result2: ${JSON.stringify(result, null, 2)}`)
-
-    return result.data.success
+    await User.deleteOne({ email: 'system@system.com' })
   } catch (err) {
     console.log(`Error in admin.js/deleteExistingSystemUser()`)
     throw err
