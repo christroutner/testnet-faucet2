@@ -32,7 +32,8 @@ module.exports = function initModules (app) {
 
         instance[method.toLowerCase()](route, ...handlers, async function (ctx) {
           // console.log(`typeof lastHandler: ${typeof (lastHandler)}`)
-          return await lastHandler(ctx)
+          // return await lastHandler(ctx)
+          return lastHandler(ctx)
         })
 
         // console.log(`instance: ${JSON.stringify(instance, null, 2)}`)

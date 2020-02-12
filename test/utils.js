@@ -7,8 +7,12 @@ const LOCALHOST = `http://localhost:${config.port}`
 // Remove all collections from the DB.
 async function cleanDb () {
   for (const collection in mongoose.connection.collections) {
-    if (mongoose.connection.collections.hasOwnProperty(collection)) {
-      await mongoose.connection.collections[collection].deleteMany()
+    const collections = mongoose.connection.collections
+    if (collections.collection) {
+      // const thisCollection = mongoose.connection.collections[collection]
+      // console.log(`thisCollection: ${JSON.stringify(thisCollection, null, 2)}`)
+
+      await collection.deleteMany()
     }
   }
 }
@@ -31,7 +35,7 @@ async function createUser (userObj) {
       }
     }
 
-    let result = await axios(options)
+    const result = await axios(options)
 
     const retObj = {
       user: result.data.user,
@@ -56,7 +60,7 @@ async function loginTestUser () {
       }
     }
 
-    let result = await axios(options)
+    const result = await axios(options)
 
     // console.log(`result: ${JSON.stringify(result.data, null, 2)}`)
 
@@ -88,7 +92,7 @@ async function loginAdminUser () {
       }
     }
 
-    let result = await axios(options)
+    const result = await axios(options)
 
     // console.log(`result: ${JSON.stringify(result.data, null, 2)}`)
 

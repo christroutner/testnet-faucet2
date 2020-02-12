@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "npm run prep-test && KOA_ENV=test nyc --reporter=text --timeout 15000 ./node_modules/.bin/mocha --exit",
-    "lint": "eslint src/**/*.js",
+    "lint": "standard --env mocha --fix",
     "docs": "./node_modules/.bin/apidoc -i src/ -o docs",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coverage:report": "nyc --reporter=html mocha --exit",
@@ -55,16 +55,16 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "coveralls": "^3.0.2",
-    "eslint": "^5.16.0",
-    "eslint-config-promise": "^2.0.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^9.0.0",
-    "eslint-plugin-promise": "^4.0.1",
+    "eslint": "5.16.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-standard": "^4.0.0",
     "mocha": "^7.0.1",
     "nyc": "^15.0.0",
-    "semantic-release": "^17.0.0"
+    "semantic-release": "^17.0.0",
+    "standard": "^14.3.1"
   },
   "release": {
     "publish": [

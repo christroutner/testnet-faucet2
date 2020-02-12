@@ -68,7 +68,7 @@ async function startServer () {
 
   // Create the system admin user.
   const success = await adminLib.createSystemUser()
-  if (success) console.log(`System admin user created.`)
+  if (success) console.log('System admin user created.')
 
   return app
 }

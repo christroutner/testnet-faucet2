@@ -113,7 +113,7 @@ async function ensureTargetUserOrAdmin (ctx, next) {
     if (ctx.state.user.type !== 'admin') {
       ctx.throw(401, 'not admin')
     } else {
-      wlogger.verbose(`It's ok. The user is an admin.`)
+      wlogger.verbose('It\'s ok. The user is an admin.')
     }
   }
 
