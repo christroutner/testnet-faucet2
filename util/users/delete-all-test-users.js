@@ -10,7 +10,10 @@ async function deleteUsers () {
   // Connect to the Mongo Database.
   mongoose.Promise = global.Promise
   mongoose.set('useCreateIndex', true) // Stop deprecation warning.
-  await mongoose.connect(config.database, { useNewUrlParser: true })
+  await mongoose.connect(config.database, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+  })
 
   // Get all the users in the DB.
   const users = await User.find({}, '-password')
