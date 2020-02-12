@@ -36,7 +36,7 @@ function readJSON (fileName) {
       fs.readFile(fileName, (err, data) => {
         if (err) {
           if (err.code === 'ENOENT') {
-            console.log(`Admin .json file not found!`)
+            console.log('Admin .json file not found!')
           } else {
             console.log(`err: ${JSON.stringify(err, null, 2)}`)
           }

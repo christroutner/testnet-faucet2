@@ -49,7 +49,7 @@ describe('Users', () => {
           }
         }
 
-        let result = await axios(options)
+        const result = await axios(options)
 
         console.log(`result stringified: ${JSON.stringify(result.data, null, 2)}`)
         assert(false, 'Unexpected result')
@@ -84,7 +84,7 @@ describe('Users', () => {
         assert.equal(err.response.status, 422)
         assert.include(
           err.response.data,
-          `Property 'email' must be a string`
+          'Property \'email\' must be a string'
         )
       }
     })
@@ -107,7 +107,7 @@ describe('Users', () => {
         assert.equal(err.response.status, 422)
         assert.include(
           err.response.data,
-          `Property 'email' must be email format`
+          'Property \'email\' must be email format'
         )
       }
     })
@@ -129,7 +129,7 @@ describe('Users', () => {
         assert.equal(err.response.status, 422)
         assert.include(
           err.response.data,
-          `Property 'password' must be a string`
+          'Property \'password\' must be a string'
         )
       }
     })
@@ -146,7 +146,7 @@ describe('Users', () => {
           }
         }
 
-        let result = await axios(options)
+        const result = await axios(options)
         // console.log(`result: ${JSON.stringify(result, null, 2)}`)
 
         context.user = result.data.user
@@ -259,7 +259,7 @@ describe('Users', () => {
           url: `${LOCALHOST}/users`,
           headers: {
             Accept: 'application/json',
-            Authorization: `Bearer 1`
+            Authorization: 'Bearer 1'
           }
         }
 
@@ -307,7 +307,7 @@ describe('Users', () => {
           url: `${LOCALHOST}/users/1`,
           headers: {
             Accept: 'application/json',
-            Authorization: `Bearer 1`
+            Authorization: 'Bearer 1'
           }
         }
 
@@ -391,7 +391,7 @@ describe('Users', () => {
           url: `${LOCALHOST}/users/1`,
           headers: {
             Accept: 'application/json',
-            Authorization: `Bearer 1`
+            Authorization: 'Bearer 1'
           }
         }
 
@@ -523,7 +523,7 @@ describe('Users', () => {
           }
         }
 
-        let result = await axios(options)
+        const result = await axios(options)
 
         // console.log(`Users: ${JSON.stringify(result.data, null, 2)}`)
 
@@ -554,7 +554,7 @@ describe('Users', () => {
           }
         }
 
-        let result = await axios(options)
+        const result = await axios(options)
 
         console.log(`result stringified: ${JSON.stringify(result, null, 2)}`)
         assert(false, 'Unexpected result')
@@ -587,7 +587,7 @@ describe('Users', () => {
         }
       }
 
-      let result = await axios(options)
+      const result = await axios(options)
       // console.log(`result stringified: ${JSON.stringify(result, null, 2)}`)
 
       const userName = result.data.user.name
@@ -614,8 +614,9 @@ describe('Users', () => {
         }
       }
       try {
-        const result = await axios(options)
-        const user = result.data.user
+        await axios(options)
+        // const result = await axios(options)
+        // const user = result.data.user
         // console.log(`user: ${util.inspect(user)}`)
       } catch (error) {
         assert.equal(error.response.status, 422)
@@ -650,7 +651,7 @@ describe('Users', () => {
         assert.equal(err.response.status, 422)
         assert.include(
           err.response.data,
-          `not a valid Email format`
+          'not a valid Email format'
         )
       }
     })
@@ -664,7 +665,7 @@ describe('Users', () => {
           url: `${LOCALHOST}/users/1`,
           headers: {
             Accept: 'application/json',
-            Authorization: `Bearer 1`
+            Authorization: 'Bearer 1'
           }
         }
 
@@ -721,7 +722,7 @@ describe('Users', () => {
           }
         }
 
-        let result = await axios(options)
+        const result = await axios(options)
 
         console.log(`result stringified: ${JSON.stringify(result.data, null, 2)}`)
         assert(false, 'Unexpected result')

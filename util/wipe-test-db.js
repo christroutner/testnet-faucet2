@@ -19,9 +19,10 @@ async function cleanDb () {
   console.log(`mongoose.connection.collections: ${JSON.stringify(mongoose.connection.collections, null, 2)}`)
 
   for (const collection in mongoose.connection.collections) {
-    if (mongoose.connection.collections.hasOwnProperty(collection)) {
-      const thisCollection = mongoose.connection.collections[collection]
-      console.log(`thisCollection: ${JSON.stringify(thisCollection, null, 2)}`)
+    const collections = mongoose.connection.collections
+    if (collections.collection) {
+      // const thisCollection = mongoose.connection.collections[collection]
+      // console.log(`thisCollection: ${JSON.stringify(thisCollection, null, 2)}`)
 
       await collection.deleteMany()
     }

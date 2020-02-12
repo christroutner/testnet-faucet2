@@ -84,7 +84,7 @@ class LogsApi {
         ctx.throw(500, err.message)
       } else {
         ctx.throw(500, 'Unhandled error')
-        console.log(`unhandled error: `, err)
+        console.log('unhandled error: ', err)
       }
     }
   }
@@ -116,11 +116,11 @@ class LogsApi {
 
             if (last) return resolve(data)
           } catch (err) {
-            console.log(`err: `, err)
+            console.log('err: ', err)
           }
         })
       } catch (err) {
-        console.log(`Error in readLines()`)
+        console.log('Error in readLines()')
         return reject(err)
       }
     })

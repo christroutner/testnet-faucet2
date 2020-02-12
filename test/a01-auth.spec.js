@@ -38,7 +38,7 @@ describe('Auth', () => {
           }
         }
 
-        let result = await axios(options)
+        const result = await axios(options)
 
         // console.log(`result: ${JSON.stringify(result, null, 2)}`)
 
@@ -92,7 +92,7 @@ describe('Auth', () => {
             password: 'pass'
           }
         }
-        let result = await axios(options)
+        const result = await axios(options)
         // console.log(`result: ${JSON.stringify(result.data, null, 2)}`)
 
         assert(result.status === 200, 'Status Code 200 expected.')

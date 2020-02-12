@@ -56,20 +56,20 @@ class UserController {
        */
       // Required property
       if (!user.email || typeof user.email !== 'string') {
-        throw new Error(`Property 'email' must be a string!`)
+        throw new Error('Property \'email\' must be a string!')
       }
 
       const isEmail = await _this.validateEmail(user.email)
       if (!isEmail) {
-        throw new Error(`Property 'email' must be email format!`)
+        throw new Error('Property \'email\' must be email format!')
       }
 
       if (!user.password || typeof user.password !== 'string') {
-        throw new Error(`Property 'password' must be a string!`)
+        throw new Error('Property \'password\' must be a string!')
       }
 
       if (user.name && typeof user.name !== 'string') {
-        throw new Error(`Property 'name' must be a string!`)
+        throw new Error('Property \'name\' must be a string!')
       }
 
       // Enforce default value of 'user'
@@ -177,6 +177,7 @@ class UserController {
       return next()
     }
   }
+
   /**
  * @api {put} /users/:id Update a user
  * @apiPermission user
@@ -232,20 +233,20 @@ class UserController {
        */
       // Required property
       if (userObj.email && typeof userObj.email !== 'string') {
-        throw new Error(`Property 'email' must be a string!`)
+        throw new Error('Property \'email\' must be a string!')
       }
       const isEmail = await _this.validateEmail(user.email)
       if (userObj.email && !isEmail) {
-        throw new Error(`Property 'email' must be email format!`)
+        throw new Error('Property \'email\' must be email format!')
       }
       if (userObj.password && typeof userObj.password !== 'string') {
-        throw new Error(`Property 'password' must be a string!`)
+        throw new Error('Property \'password\' must be a string!')
       }
       if (userObj.name && typeof userObj.name !== 'string') {
-        throw new Error(`Property 'name' must be a string!`)
+        throw new Error('Property \'name\' must be a string!')
       }
       if (userObj.projects && !Array.isArray(userObj.projects)) {
-        throw new Error(`Property 'projects' must be a Array!`)
+        throw new Error('Property \'projects\' must be a Array!')
       }
       // Save a copy of the original user type.
       const userType = user.type
@@ -253,13 +254,13 @@ class UserController {
       // If user type property is sent by the client
       if (userObj.type) {
         if (typeof userObj.type !== 'string') {
-          throw new Error(`Property 'type' must be a string!`)
+          throw new Error('Property \'type\' must be a string!')
         }
         // TODO: Here we can validate the user types allowed
 
         // Unless the calling user is an admin, they can not change the user type.
         if (userType !== 'admin') {
-          throw new Error(`Property 'type' just can change for Admin user`)
+          throw new Error('Property \'type\' just can change for Admin user')
         }
       }
 
@@ -274,6 +275,7 @@ class UserController {
       ctx.throw(422, error.message)
     }
   }
+
   /**
  * @api {delete} /users/:id Delete a user
  * @apiPermission user
@@ -301,6 +303,7 @@ class UserController {
       success: true
     }
   }
+
   // Validate Email Format
   async validateEmail (email) {
     // eslint-disable-next-line no-useless-escape

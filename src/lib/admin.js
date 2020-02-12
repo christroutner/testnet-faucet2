@@ -40,7 +40,7 @@ async function createSystemUser () {
         }
       }
     }
-    let result = await axios(options)
+    const result = await axios(options)
 
     context.email = result.data.user.email
     context.id = result.data.user._id
@@ -74,7 +74,7 @@ async function createSystemUser () {
         // Call this function again.
         return createSystemUser()
       } catch (err2) {
-        console.error(`Error in admin.js/createSystemUser() while trying generate new system user.`)
+        console.error('Error in admin.js/createSystemUser() while trying generate new system user.')
         // process.end(1)
         throw err2
       }
@@ -95,7 +95,7 @@ async function deleteExistingSystemUser () {
 
     await User.deleteOne({ email: 'system@system.com' })
   } catch (err) {
-    console.log(`Error in admin.js/deleteExistingSystemUser()`)
+    console.log('Error in admin.js/deleteExistingSystemUser()')
     throw err
   }
 }
@@ -110,7 +110,7 @@ async function loginAdmin () {
     // console.log(`existingUser: ${JSON.stringify(existingUser, null, 2)}`)
 
     // Log in as the user.
-    let options = {
+    const options = {
       method: 'POST',
       url: `${LOCALHOST}/auth`,
       data: {
@@ -118,12 +118,12 @@ async function loginAdmin () {
         password: existingUser.password
       }
     }
-    let result = await axios(options)
+    const result = await axios(options)
     // console.log(`result1: ${JSON.stringify(result, null, 2)}`)
 
     return result
   } catch (err) {
-    console.error(`Error in admin.js/loginAdmin().`)
+    console.error('Error in admin.js/loginAdmin().')
 
     // console.error(`existingUser: ${JSON.stringify(existingUser, null, 2)}`)
 
