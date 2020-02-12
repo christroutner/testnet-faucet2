@@ -24,13 +24,10 @@ async function startServer () {
   // Connect to the Mongo Database.
   mongoose.Promise = global.Promise
   mongoose.set('useCreateIndex', true) // Stop deprecation warning.
-  await mongoose.connect(
-    config.database,
-    {
-      useUnifiedTopology: true,
-      useNewUrlParser: true
-    }
-  )
+  await mongoose.connect(config.database, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+  })
 
   // MIDDLEWARE START
 
