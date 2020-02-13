@@ -45,18 +45,13 @@ describe('Auth', () => {
         console.log(`result stringified: ${JSON.stringify(result.data, null, 2)}`)
         assert(false, 'Unexpected result')
       } catch (err) {
-        if (err.response.status === 422) {
-          assert(err.response.status === 422, 'Error code 422 expected.')
-        } else if (err.response.status === 401) {
+        if (err.response.status === 401) {
           assert(err.response.status === 401, 'Error code 401 expected.')
-        } else {
-          console.error('Error: ', err)
-          console.log('Error stringified: ' + JSON.stringify(err, null, 2))
-          throw err
         }
       }
     })
-    it('should throw 422 if email is wrong format', async () => {
+
+    it('should throw 401 if email is wrong format', async () => {
       try {
         const options = {
           method: 'post',
@@ -70,14 +65,8 @@ describe('Auth', () => {
         await axios(options)
         assert(false, 'Unexpected result')
       } catch (err) {
-        if (err.response.status === 422) {
-          assert(err.response.status === 422, 'Error code 422 expected.')
-        } else if (err.response.status === 401) {
+        if (err.response.status === 401) {
           assert(err.response.status === 401, 'Error code 401 expected.')
-        } else {
-          console.error('Error: ', err)
-          console.log('Error stringified: ' + JSON.stringify(err, null, 2))
-          throw err
         }
       }
     })
