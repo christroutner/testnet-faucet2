@@ -51,21 +51,16 @@ describe('Users', () => {
 
         const result = await axios(options)
 
-        console.log(`result stringified: ${JSON.stringify(result.data, null, 2)}`)
+        console.log(
+          `result stringified: ${JSON.stringify(result.data, null, 2)}`
+        )
         assert(false, 'Unexpected result')
       } catch (err) {
-        if (err.response.status === 422) {
-          assert(err.response.status === 422, 'Error code 422 expected.')
-        } else if (err.response.status === 401) {
-          assert(err.response.status === 401, 'Error code 401 expected.')
-        } else {
-          console.error('Error: ', err)
-          console.log('Error stringified: ' + JSON.stringify(err, null, 2))
-          throw err
-        }
+        assert(err.response.status === 422, 'Error code 422 expected.')
       }
     })
-    it('should reject signup  if no email property is provided', async () => {
+
+    it('should reject signup if no email property is provided', async () => {
       try {
         const options = {
           method: 'POST',
@@ -76,19 +71,17 @@ describe('Users', () => {
             }
           }
         }
-
         await axios(options)
+
         assert(false, 'Unexpected result')
       } catch (err) {
         // console.log('err', err)
         assert.equal(err.response.status, 422)
-        assert.include(
-          err.response.data,
-          'Property \'email\' must be a string'
-        )
+        assert.include(err.response.data, "Property 'email' must be a string")
       }
     })
-    it('should reject signup  if  email property  provided is wrong format', async () => {
+
+    it('should reject signup if email property provided in wrong format', async () => {
       try {
         const options = {
           method: 'POST',
@@ -100,18 +93,19 @@ describe('Users', () => {
             }
           }
         }
-
         await axios(options)
+
         assert(false, 'Unexpected result')
       } catch (err) {
         assert.equal(err.response.status, 422)
         assert.include(
           err.response.data,
-          'Property \'email\' must be email format'
+          "Property 'email' must be email format"
         )
       }
     })
-    it('should reject signup  if no password property is provided', async () => {
+
+    it('should reject signup if no password property is provided', async () => {
       try {
         const options = {
           method: 'POST',
@@ -122,53 +116,46 @@ describe('Users', () => {
             }
           }
         }
-
         await axios(options)
+
         assert(false, 'Unexpected result')
       } catch (err) {
         assert.equal(err.response.status, 422)
         assert.include(
           err.response.data,
-          'Property \'password\' must be a string'
+          "Property 'password' must be a string"
         )
       }
     })
-    it('should signup of type user by default', async () => {
-      try {
-        const options = {
-          method: 'post',
-          url: `${LOCALHOST}/users`,
-          data: {
-            user: {
-              email: 'test3@test.com',
-              password: 'supersecretpassword'
-            }
+
+    it("should signup of type 'user' by default", async () => {
+      const options = {
+        method: 'post',
+        url: `${LOCALHOST}/users`,
+        data: {
+          user: {
+            email: 'test3@test.com',
+            password: 'supersecretpassword'
           }
         }
-
-        const result = await axios(options)
-        // console.log(`result: ${JSON.stringify(result, null, 2)}`)
-
-        context.user = result.data.user
-        context.token = result.data.token
-
-        assert(result.status === 200, 'Status Code 200 expected.')
-        assert(
-          result.data.user.email === 'test3@test.com',
-          'Email of test expected'
-        )
-        assert(
-          result.data.user.password === undefined,
-          'Password expected to be omited'
-        )
-        assert.property(result.data, 'token', 'Token property exists.')
-        assert.equal(result.data.user.type, 'user')
-      } catch (err) {
-        console.log(
-          'Error authenticating test user: ' + JSON.stringify(err, null, 2)
-        )
-        throw err
       }
+      const result = await axios(options)
+      // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+
+      context.user = result.data.user
+      context.token = result.data.token
+
+      assert(result.status === 200, 'Status Code 200 expected.')
+      assert(
+        result.data.user.email === 'test3@test.com',
+        'Email of test expected'
+      )
+      assert(
+        result.data.user.password === undefined,
+        'Password expected to be omited'
+      )
+      assert.property(result.data, 'token', 'Token property exists.')
+      assert.equal(result.data.user.type, 'user')
     })
   })
 
@@ -182,20 +169,11 @@ describe('Users', () => {
             Accept: 'application/json'
           }
         }
-
         await axios(options)
 
         assert.equal(true, false, 'Unexpected behavior')
       } catch (err) {
-        if (err.response.status) {
-          assert.equal(err.response.status, 401)
-        } else if (err.response.statusCode) {
-          assert.equal(err.response.statusCode, 401)
-        } else {
-          console.error('Error: ', err)
-          console.log('Error stringified: ' + JSON.stringify(err, null, 2))
-          throw err
-        }
+        assert.equal(err.response.status, 401)
       }
     })
 
@@ -209,19 +187,11 @@ describe('Users', () => {
             Authorization: '1'
           }
         }
-
         await axios(options)
+
         assert.equal(true, false, 'Unexpected behavior')
       } catch (err) {
-        if (err.response.status) {
-          assert.equal(err.response.status, 401)
-        } else if (err.response.statusCode) {
-          assert.equal(err.response.statusCode, 401)
-        } else {
-          console.error('Error: ', err)
-          console.log('Error stringified: ' + JSON.stringify(err, null, 2))
-          throw err
-        }
+        assert.equal(err.response.status, 401)
       }
     })
 
@@ -236,19 +206,11 @@ describe('Users', () => {
             Authorization: `Unknown ${token}`
           }
         }
-
         await axios(options)
+
         assert.equal(true, false, 'Unexpected behavior')
       } catch (err) {
-        if (err.response.status) {
-          assert.equal(err.response.status, 401)
-        } else if (err.response.statusCode) {
-          assert.equal(err.response.statusCode, 401)
-        } else {
-          console.error('Error: ', err)
-          console.log('Error stringified: ' + JSON.stringify(err, null, 2))
-          throw err
-        }
+        assert.equal(err.response.status, 401)
       }
     })
 
@@ -262,19 +224,11 @@ describe('Users', () => {
             Authorization: 'Bearer 1'
           }
         }
-
         await axios(options)
+
         assert.equal(true, false, 'Unexpected behavior')
       } catch (err) {
-        if (err.response.status) {
-          assert.equal(err.response.status, 401)
-        } else if (err.response.statusCode) {
-          assert.equal(err.response.statusCode, 401)
-        } else {
-          console.error('Error: ', err)
-          console.log('Error stringified: ' + JSON.stringify(err, null, 2))
-          throw err
-        }
+        assert.equal(err.response.status, 401)
       }
     })
 
@@ -289,8 +243,8 @@ describe('Users', () => {
           Authorization: `Bearer ${token}`
         }
       }
-
       const result = await axios(options)
+
       const users = result.data.users
       // console.log(`users: ${util.inspect(users)}`)
 
@@ -310,19 +264,11 @@ describe('Users', () => {
             Authorization: 'Bearer 1'
           }
         }
-
         await axios(options)
+
         assert.equal(true, false, 'Unexpected behavior')
       } catch (err) {
-        if (err.response.status) {
-          assert.equal(err.response.status, 401)
-        } else if (err.response.statusCode) {
-          assert.equal(err.response.statusCode, 401)
-        } else {
-          console.error('Error: ', err)
-          console.log('Error stringified: ' + JSON.stringify(err, null, 2))
-          throw err
-        }
+        assert.equal(err.response.status, 401)
       }
     })
 
@@ -338,27 +284,17 @@ describe('Users', () => {
             Authorization: `Bearer ${token}`
           }
         }
-
         await axios(options)
+
         assert.equal(true, false, 'Unexpected behavior')
       } catch (err) {
-        if (err.response.status) {
-          assert.equal(err.response.status, 404)
-        } else if (err.response.statusCode) {
-          assert.equal(err.response.statusCode, 404)
-        } else {
-          console.error('Error: ', err)
-          console.log('Error stringified: ' + JSON.stringify(err, null, 2))
-          throw err
-        }
+        assert.equal(err.response.status, 404)
       }
     })
 
-    it('should fetch user', async () => {
-      const {
-        user: { _id },
-        token
-      } = context
+    it('should fetch own user', async () => {
+      const _id = context.user._id
+      const token = context.token
 
       const options = {
         method: 'GET',
@@ -368,13 +304,17 @@ describe('Users', () => {
           Authorization: `Bearer ${token}`
         }
       }
-
       const result = await axios(options)
+
       const user = result.data.user
       // console.log(`user: ${util.inspect(user)}`)
 
-      assert.hasAnyKeys(user, ['type', '_id', 'email'])
+      assert.property(user, 'type')
+      assert.property(user, 'email')
+
+      assert.property(user, '_id')
       assert.equal(user._id, _id)
+
       assert.notProperty(
         user,
         'password',
@@ -394,19 +334,11 @@ describe('Users', () => {
             Authorization: 'Bearer 1'
           }
         }
-
         await axios(options)
+
         assert.equal(true, false, 'Unexpected behavior')
       } catch (err) {
-        if (err.response.status) {
-          assert.equal(err.response.status, 401)
-        } else if (err.response.statusCode) {
-          assert.equal(err.response.statusCode, 401)
-        } else {
-          console.error('Error: ', err)
-          console.log('Error stringified: ' + JSON.stringify(err, null, 2))
-          throw err
-        }
+        assert.equal(err.response.status, 401)
       }
     })
 
@@ -422,27 +354,17 @@ describe('Users', () => {
             Authorization: `Bearer ${token}`
           }
         }
-
         await axios(options)
+
         assert.equal(true, false, 'Unexpected behavior')
       } catch (err) {
-        if (err.response.status) {
-          assert.equal(err.response.status, 401)
-        } else if (err.response.statusCode) {
-          assert.equal(err.response.statusCode, 401)
-        } else {
-          console.error('Error: ', err)
-          console.log('Error stringified: ' + JSON.stringify(err, null, 2))
-          throw err
-        }
+        assert.equal(err.response.status, 401)
       }
     })
 
     it('should update user with minimum inputs', async () => {
-      const {
-        user: { _id },
-        token
-      } = context
+      const _id = context.user._id
+      const token = context.token
 
       const options = {
         method: 'PUT',
@@ -460,8 +382,12 @@ describe('Users', () => {
       const user = result.data.user
       // console.log(`user: ${util.inspect(user)}`)
 
-      assert.hasAnyKeys(user, ['type', '_id', 'email'])
+      assert.property(user, 'type')
+      assert.property(user, 'email')
+
+      assert.property(user, '_id')
       assert.equal(user._id, _id)
+
       assert.notProperty(
         user,
         'password',
@@ -469,11 +395,10 @@ describe('Users', () => {
       )
       assert.equal(user.email, 'testToUpdate@test.com')
     })
+
     it('should update user with all inputs', async () => {
-      const {
-        user: { _id },
-        token
-      } = context
+      const _id = context.user._id
+      const token = context.token
 
       const options = {
         method: 'PUT',
@@ -490,12 +415,16 @@ describe('Users', () => {
           }
         }
       }
-
       const result = await axios(options)
+
       const user = result.data.user
       // console.log(`user: ${util.inspect(user)}`)
 
-      assert.hasAnyKeys(user, ['type', '_id', 'email', 'name'])
+      assert.property(user, 'type')
+      assert.property(user, 'email')
+      assert.property(user, 'name')
+
+      assert.property(user, '_id')
       assert.equal(user._id, _id)
       assert.notProperty(
         user,
@@ -522,19 +451,18 @@ describe('Users', () => {
             }
           }
         }
-
         const result = await axios(options)
 
-        // console.log(`Users: ${JSON.stringify(result.data, null, 2)}`)
+        console.log(`Users: ${JSON.stringify(result.data, null, 2)}`)
 
-        assert(result.status === 200, 'Status Code 200 expected.')
-        assert(result.data.user.type === 'user', 'Type should be unchanged.')
+        // assert(result.status === 200, 'Status Code 200 expected.')
+        // assert(result.data.user.type === 'user', 'Type should be unchanged.')
         assert.equal(true, false, 'Unexpected behavior')
       } catch (err) {
         assert.equal(err.response.status, 422)
         assert.include(
           err.response.data,
-          "Property 'type' just can change for Admin user"
+          "Property 'type' can only be changed by Admin user"
         )
       }
     })
@@ -553,21 +481,13 @@ describe('Users', () => {
             }
           }
         }
-
         const result = await axios(options)
 
-        console.log(`result stringified: ${JSON.stringify(result, null, 2)}`)
+        console.log(`result: ${JSON.stringify(result.data, null, 2)}`)
+
         assert(false, 'Unexpected result')
       } catch (err) {
-        if (err.response.status) {
-          assert.equal(err.response.status, 401)
-        } else if (err.response.statusCode) {
-          assert.equal(err.response.statusCode, 401)
-        } else {
-          console.error('Error: ', err)
-          console.log('Error stringified: ' + JSON.stringify(err, null, 2))
-          throw err
-        }
+        assert.equal(err.response.status, 401)
       }
     })
 
@@ -586,52 +506,44 @@ describe('Users', () => {
           }
         }
       }
-
       const result = await axios(options)
       // console.log(`result stringified: ${JSON.stringify(result, null, 2)}`)
 
       const userName = result.data.user.name
       assert.equal(userName, 'This should work')
     })
-    it('should not be able to update if name property is wrong', async () => {
-      const {
-        user: { _id },
-        token
-      } = context
 
-      const options = {
-        method: 'PUT',
-        url: `${LOCALHOST}/users/${_id}`,
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        data: {
-          user: {
-            email: 'testToUpdate@test.com',
-            name: {}
+    it('should not be able to update if name property is wrong', async () => {
+      try {
+        const _id = context.user._id
+        const token = context.token
+
+        const options = {
+          method: 'PUT',
+          url: `${LOCALHOST}/users/${_id}`,
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          data: {
+            user: {
+              email: 'testToUpdate@test.com',
+              name: {}
+            }
           }
         }
-      }
-      try {
         await axios(options)
-        // const result = await axios(options)
-        // const user = result.data.user
-        // console.log(`user: ${util.inspect(user)}`)
       } catch (error) {
         assert.equal(error.response.status, 422)
-        assert.include(
-          error.response.data,
-          "Property 'name' must be a string!"
-        )
+        assert.include(error.response.data, "Property 'name' must be a string!")
       }
     })
-    it('should not be able to update  if  email property  provided is wrong format', async () => {
-      const {
-        user: { _id },
-        token
-      } = context
+
+    it('should not be able to update if email is wrong format', async () => {
       try {
+        const _id = context.user._id
+        const token = context.token
+
         const options = {
           method: 'PUT',
           url: `${LOCALHOST}/users/${_id}`,
@@ -645,14 +557,10 @@ describe('Users', () => {
             }
           }
         }
-
         await axios(options)
       } catch (err) {
         assert.equal(err.response.status, 422)
-        assert.include(
-          err.response.data,
-          'not a valid Email format'
-        )
+        assert.include(err.response.data, 'not a valid Email format')
       }
     })
   })
@@ -668,23 +576,15 @@ describe('Users', () => {
             Authorization: 'Bearer 1'
           }
         }
-
         await axios(options)
+
         assert.equal(true, false, 'Unexpected behavior')
       } catch (err) {
-        if (err.response.status) {
-          assert.equal(err.response.status, 401)
-        } else if (err.response.statusCode) {
-          assert.equal(err.response.statusCode, 401)
-        } else {
-          console.error('Error: ', err)
-          console.log('Error stringified: ' + JSON.stringify(err, null, 2))
-          throw err
-        }
+        assert.equal(err.response.status, 401)
       }
     })
 
-    it('should throw 401 if deleting other user', async () => {
+    it('should throw 401 if deleting invalid user', async () => {
       const { token } = context
 
       try {
@@ -696,19 +596,11 @@ describe('Users', () => {
             Authorization: `Bearer ${token}`
           }
         }
-
         await axios(options)
+
         assert.equal(true, false, 'Unexpected behavior')
       } catch (err) {
-        if (err.response.status) {
-          assert.equal(err.response.status, 401)
-        } else if (err.response.statusCode) {
-          assert.equal(err.response.statusCode, 401)
-        } else {
-          console.error('Error: ', err)
-          console.log('Error stringified: ' + JSON.stringify(err, null, 2))
-          throw err
-        }
+        assert.equal(err.response.status, 401)
       }
     })
 
@@ -721,29 +613,15 @@ describe('Users', () => {
             Authorization: `Bearer ${context.token}`
           }
         }
-
-        const result = await axios(options)
-
-        console.log(`result stringified: ${JSON.stringify(result.data, null, 2)}`)
-        assert(false, 'Unexpected result')
+        await axios(options)
       } catch (err) {
-        if (err.response.status) {
-          assert.equal(err.response.status, 401)
-        } else if (err.response.statusCode) {
-          assert.equal(err.response.statusCode, 401)
-        } else {
-          console.error('Error: ', err)
-          console.log('Error stringified: ' + JSON.stringify(err, null, 2))
-          throw err
-        }
+        assert.equal(err.response.status, 401)
       }
     })
 
     it('should delete own user', async () => {
-      const {
-        user: { _id },
-        token
-      } = context
+      const _id = context.user._id
+      const token = context.token
 
       const options = {
         method: 'DELETE',
@@ -753,7 +631,6 @@ describe('Users', () => {
           Authorization: `Bearer ${token}`
         }
       }
-
       const result = await axios(options)
       // console.log(`result: ${util.inspect(result.data.success)}`)
 
@@ -772,7 +649,6 @@ describe('Users', () => {
           Authorization: `Bearer ${adminJWT}`
         }
       }
-
       const result = await axios(options)
       // console.log(`result: ${util.inspect(result.data)}`)
 
