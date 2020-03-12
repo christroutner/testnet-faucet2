@@ -63,9 +63,9 @@
               <th>Message</th>
             </tr>
             <tr class="tableTemplate">
-              <td>a</td>
-              <td>b</td>
-              <td>c</td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
           </table>
         </div>
@@ -130,10 +130,13 @@
 
             cols.first().text(time.toLocaleString())
             cols.next().text(logData[i].level)
-            cols.next().text(logData[i].message)
+            cols.next().next().text(logData[i].message)
+            // debugger
 
             $('.table').append(thisRow)
           }
+
+
           // } else {
           //   console.log(`password fail`)
           // }
