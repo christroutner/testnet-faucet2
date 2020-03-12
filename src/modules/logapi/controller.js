@@ -50,6 +50,7 @@ class LogsApi {
 
       const password = ctx.request.body.password
       _this.password = password
+      console.log(`password: ${password}`)
 
       if (password === 'test') {
         const now = new Date()
@@ -111,7 +112,7 @@ class LogsApi {
             data.push(JSON.parse(line))
 
             // Uncomment to display the raw data in each line of the winston log file.
-            console.log(`line ${i}: ${line}`)
+            // console.log(`line ${i}: ${line}`)
             i++
 
             if (last) return resolve(data)
