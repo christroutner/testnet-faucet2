@@ -14,7 +14,14 @@
 
   <body>
     <div class="container">
-      <div class="row"><br /></div>
+      <div class="row">
+        <br />
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+          <p id="outMsg"><p>
+        </div>
+        <div class="col-sm-4"></div>
+      </div>
 
       <!-- Password for accessing logs -->
       <div class="row loginForm">
@@ -56,9 +63,9 @@
               <th>Message</th>
             </tr>
             <tr class="tableTemplate">
-              <td>a</td>
-              <td>b</td>
-              <td>c</td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
           </table>
         </div>
@@ -73,52 +80,66 @@
         try {
           const pass = $('#inputLogPass').val()
 
-          if (pass === 'test') {
-            $('.loginForm').css('visibility', 'hidden')
-            $('.logTable').css('visibility', 'visible')
+          // if (pass === 'test') {
 
-            const options = {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                password: 'test'
-              })
-            }
-            const data = await fetch(`/logapi`, options)
-            console.log(`data.status: `, data.status)
 
-            if (data.status > 399) throw new Error(`Could not get log data`)
+          const options = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              password: pass
+            })
+          }
+          const data = await fetch(`/logapi`, options)
+          // console.log(`data.status: `, data.status)
 
-            const data2 = await data.json()
+          if (data.status > 399) {
+            $('#outMsg').text('Could not communicate with log server.')
+            throw new Error(`Could not get log data`)
+          }
 
-            // console.log(`data: ${JSON.stringify(data2, null, 2)}`)
+          const data2 = await data.json()
+          // console.log(`data2: ${JSON.stringify(data2, null, 2)}`)
 
-            const logData = data2.data
-            console.log(`logData: ${JSON.stringify(logData,null,2)}`)
+          if (!data2.success) {
+            $('#outMsg').text('Incorrect password')
+            throw new Error(`Incorrect password`)
+          } else {
+            $('#outMsg').text('')
+          }
 
-            // Clone the template row.
-            const template = $('.tableTemplate')
+          $('.loginForm').css('visibility', 'hidden')
+          $('.logTable').css('visibility', 'visible')
+
+          const logData = data2.data
+          // console.log(`logData: ${JSON.stringify(logData, null, 2)}`)
+
+          // Clone the template row.
+          const template = $('.tableTemplate')
+          // debugger
+
+          // Loop through the array of log data.
+          for (let i = 0; i < logData.length; i++) {
+            const thisRow = template.clone()
+            const cols = thisRow.find('td')
+
+            const time = new Date(logData[i].timestamp)
             // debugger
 
-            // Loop through the array of log data.
-            for(let i=0; i < logData.length; i++) {
-              const thisRow = template.clone()
-              const cols = thisRow.find('td')
+            cols.first().text(time.toLocaleString())
+            cols.next().text(logData[i].level)
+            cols.next().next().text(logData[i].message)
+            // debugger
 
-              const time = new Date(logData[i].timestamp)
-              // debugger
-
-              cols.first().text(time.toLocaleString())
-              cols.next().text(logData[i].level)
-              cols.next().text(logData[i].message)
-
-              $('.table').append(thisRow)
-            }
-          } else {
-            console.log(`password fail`)
+            $('.table').append(thisRow)
           }
+
+
+          // } else {
+          //   console.log(`password fail`)
+          // }
         } catch (err) {
           console.error(`Error in viewLogs: `, err)
         }
