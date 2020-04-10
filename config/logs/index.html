@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Logs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/vendor/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <link href="/vendor/prettify.css" rel="stylesheet" media="screen" />
+    <link href="/css/style.css" rel="stylesheet" media="screen, print" />
+    <!-- <link href="img/favicon.ico" rel="icon" type="image/x-icon"> -->
+    <script src="/vendor/polyfill.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <br />
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+          <p id="outMsg"><p>
+        </div>
+        <div class="col-sm-4"></div>
+      </div>
+
+      <!-- Password for accessing logs -->
+      <div class="row loginForm">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label for="inputLogPass" class="col-sm-2 control-label"
+              >Password</label
+            >
+            <div class="col-sm-10">
+              <input
+                type="password"
+                class="form-control"
+                id="inputLogPass"
+                placeholder=""
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button
+                type="button"
+                class="btn btn-default"
+                onclick="viewLogs()"
+              >
+                View Logs
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="row logTable" style="visibility: hidden;">
+        <div class="table-responsive">
+          <table class="table">
+            <tr>
+              <th>Time</th>
+              <th>Level</th>
+              <th>Message</th>
+            </tr>
+            <tr class="tableTemplate">
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="/vendor/jquery.min.js"></script>
+    <script src="/vendor/bootstrap.min.js"></script>
+
+    <script>
+      async function viewLogs() {
+        try {
+          const pass = $('#inputLogPass').val()
+
+          // if (pass === 'test') {
+
+
+          const options = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              password: pass
+            })
+          }
+          const data = await fetch(`/logapi`, options)
+          // console.log(`data.status: `, data.status)
+
+          if (data.status > 399) {
+            $('#outMsg').text('Could not communicate with log server.')
+            throw new Error(`Could not get log data`)
+          }
+
+          const data2 = await data.json()
+          // console.log(`data2: ${JSON.stringify(data2, null, 2)}`)
+
+          if (!data2.success) {
+            $('#outMsg').text('Incorrect password')
+            throw new Error(`Incorrect password`)
+          } else {
+            $('#outMsg').text('')
+          }
+
+          $('.loginForm').css('visibility', 'hidden')
+          $('.logTable').css('visibility', 'visible')
+
+          const logData = data2.data
+          // console.log(`logData: ${JSON.stringify(logData, null, 2)}`)
+
+          // Clone the template row.
+          const template = $('.tableTemplate')
+          // debugger
+
+          // Loop through the array of log data.
+          for (let i = 0; i < logData.length; i++) {
+            const thisRow = template.clone()
+            const cols = thisRow.find('td')
+
+            const time = new Date(logData[i].timestamp)
+            // debugger
+
+            cols.first().text(time.toLocaleString())
+            cols.next().text(logData[i].level)
+            cols.next().next().text(logData[i].message)
+            // debugger
+
+            $('.table').append(thisRow)
+          }
+
+
+          // } else {
+          //   console.log(`password fail`)
+          // }
+        } catch (err) {
+          console.error(`Error in viewLogs: `, err)
+        }
+      }
+    </script>
+  </body>
+</html>
