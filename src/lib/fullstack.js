@@ -59,16 +59,16 @@ class FullStack {
 
       // Start a timer that periodically checks the balance of the app.
       // Also start a timer that runs the main app every 10 seconds.
-      setInterval(function () {
-        try {
-          _this.checkBalance()
-        } catch (err) {
-          console.log('Error: ', err)
-        }
-      }, 3000) // 3 seconds
+      // setInterval(function () {
+      //   try {
+      //     _this.checkBalance()
+      //   } catch (err) {
+      //     console.log('Error: ', err)
+      //   }
+      // }, 3000) // 3 seconds
 
       // Also check the balance immediately.
-      _this.checkBalance()
+      // _this.checkBalance()
     } catch (err) {
       console.error('Error in fullstack.js/startup()')
       throw err
