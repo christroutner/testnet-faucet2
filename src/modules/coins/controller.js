@@ -31,10 +31,13 @@ class CoinsController {
 
   async getBalance (ctx, next) {
     try {
-      ctx.body = { msg: 'hello' }
+      const balance = await _this.wallet.getBalance()
+      // const balance = await _this.wallet.doSomething()
+
+      ctx.body = { balance }
     } catch (err) {
-      wlogger.error('Error in coins/controller.js/getBalance()')
-      ctx.throw(500)
+      wlogger.error('Error in coins/controller.js/getBalance(): ', err)
+      ctx.throw(500, 'Unhandled error in GET /coins/')
     }
 
     if (next) return next()

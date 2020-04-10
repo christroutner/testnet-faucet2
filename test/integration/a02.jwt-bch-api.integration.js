@@ -4,7 +4,7 @@
 
 const assert = require('chai').assert
 
-const FullStack = require('../../src/fullstack')
+const FullStack = require('../../src/lib/fullstack')
 
 describe('#fullstack', () => {
   let uut

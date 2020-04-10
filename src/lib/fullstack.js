@@ -50,6 +50,10 @@ class FullStack {
         // Save the state.
         stateData.apiToken = apiToken
         await _this.state.writeState(stateData)
+
+        // Export the api token to the environment variable so that other libraries
+        // can grab it.
+        process.env.BCHJSTOKEN = apiToken
       } catch (err) {
         console.log('Could not log in to get JWT token. Skipping.')
       }
