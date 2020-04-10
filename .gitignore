@@ -63,5 +63,6 @@ coverage
 database/
 system-user-*.json
 state.json
+wallet.json
 
 !README.md
