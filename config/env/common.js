@@ -12,5 +12,8 @@ module.exports = {
   stateFileName: 'state.json',
   FULLSTACKLOGIN: process.env.FULLSTACKLOGIN ? process.env.FULLSTACKLOGIN : 'demo@demo.com',
   FULLSTACKPASS: process.env.FULLSTACKPASS ? process.env.FULLSTACKPASS : 'demo',
-  apiLevel: 10 // Tier of access: 10 = free, 20 = full node, 30 = indexer, 40 = SLP
+  apiLevel: 10, // Tier of access: 10 = free, 20 = full node, 30 = indexer, 40 = SLP
+
+  amountToSend: 1000, // Amount of satoshis to send on each request.
+  appAddress: 'bchtest:qqmd9unmhkpx4pkmr6fkrr8rm6y77vckjvqe8aey35'
 }
