@@ -75,7 +75,11 @@ class UserController {
       // Enforce default value of 'user'
       user.type = 'user'
 
-      await user.save()
+      try {
+        await user.save()
+      } catch (err) {
+        console.error('Error trying to save new user: ', err)
+      }
 
       const token = user.generateToken()
       const response = user.toJSON()

@@ -25,7 +25,7 @@ class FullStack {
 
     _this.state = state
     _this.config = config
-    _this.jwtLib = new JwtLib(state.currentState)
+    _this.jwtLib = new JwtLib(_this.state.currentState)
     _this.bchjs = bchjs
   }
 
@@ -34,7 +34,7 @@ class FullStack {
   // validates the API JWT token is already has, depending on the state of the app.
   async startup () {
     try {
-      const stateData = await state.readState()
+      const stateData = await _this.state.readState()
       console.log(
         `The apps current state: ${JSON.stringify(stateData, null, 2)}`
       )
@@ -138,6 +138,7 @@ class FullStack {
 
       // Validate the exiting token.
       const isValid = await _this.jwtLib.validateApiToken()
+      // console.log(`isValid: ${isValid}`)
 
       // If the current token is not valid, attempt to request a new one.
       if (!isValid) {
