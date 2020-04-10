@@ -29,6 +29,15 @@ class CoinsController {
     _this.wallet = new Wallet()
   }
 
+  /**
+   * @api {get} /coins Get balance of the faucet
+   * @apiPermission public
+   * @apiName Balance
+   * @apiGroup Coins
+   *
+   * @apiExample Example usage:
+   * curl -H "Content-Type: application/json" -X GET localhost:5000/coins
+   */
   async getBalance (ctx, next) {
     try {
       const balance = await _this.wallet.getBalance()
@@ -43,6 +52,16 @@ class CoinsController {
     if (next) return next()
   }
 
+  /**
+   * @api {get} /coins/:cashaddr Get testnet tokens
+   * @apiPermission public
+   * @apiName Get Testnet Coins
+   * @apiGroup Coins
+   *
+   * @apiExample Example usage:
+   * curl -H "Content-Type: application/json" -X GET localhost:5000/coins/bchtest:qqmd9unmhkpx4pkmr6fkrr8rm6y77vckjvqe8aey35
+   *
+   */
   async getCoins (ctx, next) {
     try {
       ctx.body = { msg: 'hello' }
