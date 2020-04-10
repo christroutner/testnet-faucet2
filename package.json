@@ -36,7 +36,7 @@
     "koa-router": "^8.0.6",
     "koa-static": "^5.0.0",
     "line-reader": "^0.4.0",
-    "mongoose": "^5.5.12",
+    "mongoose": "^5.7.5",
     "passport-local": "^1.0.0",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.0.0"
