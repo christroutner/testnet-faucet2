@@ -20,11 +20,13 @@
   },
   "repository": "christroutner/testnet-faucet2",
   "dependencies": {
+    "@chris.troutner/bch-js": "^2.3.11",
     "apidoc": "^0.20.0",
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "glob": "^7.0.0",
     "jsonwebtoken": "^8.3.0",
+    "jwt-bch-lib": "^1.1.4",
     "kcors": "^2.2.1",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
@@ -53,6 +55,7 @@
     "mocha": "^7.0.1",
     "nyc": "^15.0.0",
     "semantic-release": "^17.0.0",
+    "sinon": "^9.0.2",
     "standard": "^14.3.1"
   },
   "release": {

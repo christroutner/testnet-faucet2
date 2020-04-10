@@ -16,6 +16,9 @@ const adminLib = require('../src/lib/admin')
 const errorMiddleware = require('../src/middleware')
 const wlogger = require('../src/lib/wlogger')
 
+const FullStack = require('../src/lib/fullstack')
+const fullstack = new FullStack()
+
 async function startServer () {
   // Create a Koa instance.
   const app = new Koa()
@@ -66,6 +69,9 @@ async function startServer () {
   // Create the system admin user.
   const success = await adminLib.createSystemUser()
   if (success) console.log('System admin user created.')
+
+  // Validate the JWT token with FullStack.cash.
+  fullstack.startup()
 
   return app
 }
