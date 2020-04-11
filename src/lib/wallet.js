@@ -60,7 +60,7 @@ class Wallet {
       if (!isValid) return false
 
       // Amount to send in satoshis
-      const AMOUNT_TO_SEND = _this.config.amountToSend
+      const AMOUNT_TO_SEND = _this.config.satsToSend
 
       const mnemonic = _this.wallet.mnemonic
 
@@ -149,10 +149,10 @@ class Wallet {
   async broadcastTx (hex) {
     try {
       // sendRawTransaction to running BCH node
-      const broadcast = await _this.bchjs.RawTransactions.sendRawTransaction(hex)
-      console.log(`Sending BCH. Transaction ID: ${broadcast}`)
+      const txid = await _this.bchjs.RawTransactions.sendRawTransaction(hex)
+      console.log(`Sending BCH. Transaction ID: ${txid}`)
 
-      return broadcast
+      return txid
     } catch (err) {
       wlogger.error('Error in wallet.js/broadcastTx()')
       throw err

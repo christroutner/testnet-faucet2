@@ -9,7 +9,7 @@ const Wallet = require('../../lib/wallet.js')
 const wlogger = require('../../lib/wlogger')
 
 // Instantiate the models.
-// const BchAddresses = require('../../models/bch-addresses')
+const BchAddresses = require('../../models/bch-addresses')
 const IpAddresses = require('../../models/ip-addresses')
 
 let _this
@@ -72,8 +72,9 @@ class CoinsController {
       )
 
       // Get the IP of the requester.
-      // const ip = ctx.request.ip // Normal usage
-      const ip = ctx.request.headers['x-real-ip'] // If behind a reverse proxy
+      // x-real-ip = IP if behind a reverse proxy
+      // request.ip = local IP
+      const ip = ctx.request.headers['x-real-ip'] || ctx.request.ip
 
       // The website/host where the request originated.
       const origin = ctx.request.headers.origin
@@ -141,7 +142,9 @@ class CoinsController {
       }
 
       // Otherwise send the payment.
-      const txid = await _this.wallet.sendBCH(bchAddr)
+      const hex = await _this.wallet.sendBCH(bchAddr)
+
+      const txid = await _this.wallet.broadcastTx(hex)
       if (!txid) {
         ctx.body = {
           success: false,
@@ -150,6 +153,13 @@ class CoinsController {
         console.log('Rejected because invalid BCH testnet address.')
         return
       }
+
+      // Track the amount of BCH sent.
+      sentTotal += config.satsToSend
+
+      // Add IP and BCH address to DB.
+      await _this.saveIp(ip)
+      await _this.saveAddr(bchAddr)
     } catch (err) {
       wlogger.error('Error in coins/controller.js/getCoins()')
       ctx.throw(500)
@@ -176,6 +186,38 @@ class CoinsController {
       return false
     } catch (err) {
       console.log('Error in seenIPAddress.')
+      throw err
+    }
+  }
+
+  // Saves the IP address to the database.
+  async saveIp (ip) {
+    try {
+      const newIp = new IpAddresses()
+
+      newIp.ipAddress = ip
+
+      const now = new Date()
+      const timestamp = now.toISOString()
+      newIp.timestamp = timestamp
+
+      await newIp.save()
+    } catch (err) {
+      wlogger.error('Error in saveIp().')
+      throw err
+    }
+  }
+
+  // Saves the BCH address to the database.
+  async saveAddr (bchAddr) {
+    try {
+      const newAddr = new BchAddresses()
+
+      newAddr.bchAddress = bchAddr
+
+      await newAddr.save()
+    } catch (err) {
+      console.log('Error in saveAddr().')
       throw err
     }
   }

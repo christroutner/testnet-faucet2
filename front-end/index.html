@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BCH Testnet Faucet</title>
+
+  <link href="css/bootstrap.min.css" media="all" rel="stylesheet" />
+  <link href="css/main.css" media="all" rel="stylesheet" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+
+<header class='navbar navbar-default navbar-fixed-top'>
+  <nav class='container' role='navigation'>
+    <div class='navbar-header'>
+      <a href='index.html' class='navbar-brand'>BCH Testnet Faucet</a>
+    </div>
+  </nav>
+</header>
+
+<section style="padding-top: 70px;">
+  <div class='container'>
+    <div class='row well well-lg'>
+      <div class='col-md-6'>
+        <h2>BCH Testnet Faucet</h2>
+        <p class='lead'>
+          This is a testnet faucet built with
+          <a href="https://www.npmjs.com/package/@chris.troutner/bch-js">bch-js</a>
+          JavaScript SDK for Bitcoin Cash! It currently gives
+          out 0.1 BCH.
+        </p>
+        <p>
+          <a href="https://github.com/christroutner/testnet-faucet" target="_blank">Fork this demo on GitHub!</a>
+        </p>
+      </div>
+      <div class='col-md-6 visible-md visible-lg'>
+        <a href="https://developer.bitcoin.com/">
+          <img src='images/bitcoincom.jpg' alt='Bitcoin.com Testnet Faucet' style="width: 100%" />
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section>
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <form class="form-inline">
+          <div class="form-group">
+            <label for="peerId">BCH Testnet Address: </label>
+            <input type="text" class="form-control" id="bchAddr" size="60" placeholder="bchtest:qqmd9unmhkpx4pkmr6fkrr8rm6y77vckjvqe8aey35">
+          </div>
+        </form>
+        <button type="button" class="btn btn-default" onclick="requestBCH()">Get tBCH!</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <p>
+          Please send tBCH back to this faucet at this address:<br>
+          <b>bchtest:qqmd9unmhkpx4pkmr6fkrr8rm6y77vckjvqe8aey35</b>
+        </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <h4>Output</h4>
+      <div class="col-sm-12 well">
+        <p id="outWell" style="white-space: pre-line;"></p>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- CDN -->
+<!--
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://unpkg.com/ipfs/dist/index.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+-->
+
+<!-- Local front-end Libraries -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js?body=1"></script>
+
+
+<script>
+
+
+  // This function executes when the page has finished loading.
+  $(document).ready(function() {
+
+  });
+
+  async function requestBCH() {
+    try {
+      writeToWell(`Sending request...`)
+
+      const bchAddr = $('#bchAddr').val()
+      if(bchAddr === "") {
+        appendToWell(`Error: BCH Address can not be blank`)
+        return
+      }
+
+      const resp = await fetch(`http://localhost:5001/coins/${bchAddr}`)
+      //const resp = await fetch(`http://decatur.hopto.org:3456/coins/${bchAddr}`)
+      // const resp = await fetch(`/coins/${bchAddr}`)
+      const body = await resp.json()
+      console.log(`body: ${JSON.stringify(body,null,2)}`)
+
+      if(!body.success) {
+        const message = body.message
+
+        if(message === `Invalid BCH cash address.`)
+          appendToWell(`Error: Invalid BCH testnet address`)
+        else
+          appendToWell(`Error: This BCH address has been used before, or you need to wait 24 hours to request from this IP address.`)
+
+        return
+      }
+
+      appendToWell(`Success: tBCH are on their way!`)
+      appendToWell(`TXID: ${body.txid}`)
+    } catch(err) {
+      console.log(`Error in requestBCH: `, err)
+    }
+  }
+
+  // Gets the current text in the output well.
+  function getWellText() {
+    return $('#outWell').text()
+  }
+
+  // Overwrites any content in the output well.
+  function writeToWell(str) {
+    $('#outWell').text(str)
+  }
+
+  // Appends a string as a new line to the output well.
+  function appendToWell(str) {
+    let wellText = $('#outWell').text()
+
+    wellText = wellText + '\n' + str
+
+    $('#outWell').text(wellText)
+  }
+
+</script>
+</body>
+</html>
