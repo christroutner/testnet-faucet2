@@ -25,7 +25,7 @@ class FullStack {
 
     _this.state = state
     _this.config = config
-    _this.jwtLib = new JwtLib(state.currentState)
+    _this.jwtLib = new JwtLib(_this.state.currentState)
     _this.bchjs = bchjs
   }
 
@@ -34,7 +34,7 @@ class FullStack {
   // validates the API JWT token is already has, depending on the state of the app.
   async startup () {
     try {
-      const stateData = await state.readState()
+      const stateData = await _this.state.readState()
       console.log(
         `The apps current state: ${JSON.stringify(stateData, null, 2)}`
       )
@@ -50,6 +50,10 @@ class FullStack {
         // Save the state.
         stateData.apiToken = apiToken
         await _this.state.writeState(stateData)
+
+        // Export the api token to the environment variable so that other libraries
+        // can grab it.
+        process.env.BCHJSTOKEN = apiToken
       } catch (err) {
         console.log('Could not log in to get JWT token. Skipping.')
       }
@@ -59,16 +63,16 @@ class FullStack {
 
       // Start a timer that periodically checks the balance of the app.
       // Also start a timer that runs the main app every 10 seconds.
-      setInterval(function () {
-        try {
-          _this.checkBalance()
-        } catch (err) {
-          console.log('Error: ', err)
-        }
-      }, 3000) // 3 seconds
+      // setInterval(function () {
+      //   try {
+      //     _this.checkBalance()
+      //   } catch (err) {
+      //     console.log('Error: ', err)
+      //   }
+      // }, 3000) // 3 seconds
 
       // Also check the balance immediately.
-      _this.checkBalance()
+      // _this.checkBalance()
     } catch (err) {
       console.error('Error in fullstack.js/startup()')
       throw err
@@ -138,6 +142,7 @@ class FullStack {
 
       // Validate the exiting token.
       const isValid = await _this.jwtLib.validateApiToken()
+      // console.log(`isValid: ${isValid}`)
 
       // If the current token is not valid, attempt to request a new one.
       if (!isValid) {

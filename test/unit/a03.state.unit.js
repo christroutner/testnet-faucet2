@@ -12,7 +12,7 @@ const sinon = require('sinon')
 //   password: 'test'
 // }
 
-const State = require('../src/lib/state')
+const State = require('../../src/lib/state')
 
 describe('#state.js', () => {
   let sandbox
