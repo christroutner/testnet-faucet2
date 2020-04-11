@@ -4,7 +4,7 @@
 */
 
 module.exports = {
-  port: process.env.PORT || 5001,
+  port: process.env.PORT || 7654,
   logPass: 'test',
   AUTHSERVER: process.env.AUTHSERVER ? process.env.AUTHSERVER : 'https://auth.fullstack.cash',
   APISERVER: process.env.APISERVER ? process.env.APISERVER : 'https://api.fullstack.cash/v3/',

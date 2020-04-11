@@ -112,7 +112,8 @@
 
   async function getBalance() {
     try {
-      const resp = await fetch(`http://localhost:5001/coins`)
+      // const resp = await fetch(`http://localhost:7654/coins`)
+      const resp = await fetch(`https://faucet-api.fullstack.cash/coins`)
       const body = await resp.json()
       console.log(`body: ${JSON.stringify(body,null,2)}`)
 
@@ -134,8 +135,8 @@
         return
       }
 
-      const resp = await fetch(`http://localhost:5001/coins/${bchAddr}`)
-      //const resp = await fetch(`http://decatur.hopto.org:3456/coins/${bchAddr}`)
+      // const resp = await fetch(`http://localhost:7654/coins/${bchAddr}`)
+      const resp = await fetch(`https://faucet-api.fullstack.cash/coins/${bchAddr}`)
       // const resp = await fetch(`/coins/${bchAddr}`)
       const body = await resp.json()
       console.log(`body: ${JSON.stringify(body,null,2)}`)
