@@ -46,16 +46,40 @@ describe('#Wallet', () => {
       assert.equal(true, result)
     })
 
-    it('should return true for a valid legacy address', () => {
+    it('should return false for a valid legacy address', () => {
       const addr = 'mkWqVHGbfpznuu3JpPoXfCnHrhoekJLUGu'
 
       const result = uut.validateAddress(addr)
 
-      assert.equal(true, result)
+      assert.equal(false, result)
     })
 
     it('should return false for an invalid address', () => {
       const addr = 'abc123'
+
+      const result = uut.validateAddress(addr)
+
+      assert.equal(false, result)
+    })
+
+    it('should return false for real-life example 1', () => {
+      const addr = '1DRCakAJvdyxDuuBz1fuWbt2uji1XHhHDD'
+
+      const result = uut.validateAddress(addr)
+
+      assert.equal(false, result)
+    })
+
+    it('should return false for real-life example 2', () => {
+      const addr = '2N5MubksDar5zP3xaBWFkSXahG9V4XzwZzC'
+
+      const result = uut.validateAddress(addr)
+
+      assert.equal(false, result)
+    })
+
+    it('should return false for real-life example 3', () => {
+      const addr = '14x8rRCSVEGVDALBiTso82gxxJvcehEck4'
 
       const result = uut.validateAddress(addr)
 

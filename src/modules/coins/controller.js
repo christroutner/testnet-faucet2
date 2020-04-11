@@ -143,6 +143,14 @@ class CoinsController {
 
       // Otherwise send the payment.
       const hex = await _this.wallet.sendBCH(bchAddr)
+      if (!hex) {
+        ctx.body = {
+          success: false,
+          message: 'Invalid BCH cash address.'
+        }
+        console.log('Rejected because invalid BCH testnet cash address.')
+        return
+      }
 
       const txid = await _this.wallet.broadcastTx(hex)
       if (!txid) {

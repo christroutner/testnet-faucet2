@@ -79,7 +79,10 @@ class Wallet {
       const masterHDNode = _this.bchjs.HDNode.fromSeed(rootSeed, 'testnet') // Testnet
 
       // HDNode of BIP44 account
-      const account = _this.bchjs.HDNode.derivePath(masterHDNode, "m/44'/145'/0'")
+      const account = _this.bchjs.HDNode.derivePath(
+        masterHDNode,
+        "m/44'/145'/0'"
+      )
 
       const change = _this.bchjs.HDNode.derivePath(account, '0/0')
 
@@ -192,9 +195,14 @@ class Wallet {
   // Returns true if BCH address is valid, false otherwise.
   validateAddress (bchAddr) {
     try {
-      _this.bchjs.Address.isCashAddress(bchAddr)
-      _this.bchjs.Address.isTestnetAddress(bchAddr)
-      return true
+      const isCashAddress = _this.bchjs.Address.isCashAddress(bchAddr)
+      const isTestnetAddress = _this.bchjs.Address.isTestnetAddress(bchAddr)
+
+      if (isCashAddress && isTestnetAddress) {
+        return true
+      }
+
+      return false
     } catch (err) {
       return false
     }
