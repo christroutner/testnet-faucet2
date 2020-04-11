@@ -70,6 +70,9 @@
           Please send tBCH back to this faucet at this address:<br>
           <b>bchtest:qqmd9unmhkpx4pkmr6fkrr8rm6y77vckjvqe8aey35</b>
         </p>
+        <p>
+          Current Balance: <span id=balance>0.00</span> BCH
+        </p>
       </div>
     </div>
 
@@ -104,8 +107,22 @@
 
   // This function executes when the page has finished loading.
   $(document).ready(function() {
-
+    getBalance()
   });
+
+  async function getBalance() {
+    try {
+      const resp = await fetch(`http://localhost:5001/coins`)
+      const body = await resp.json()
+      console.log(`body: ${JSON.stringify(body,null,2)}`)
+
+      const balance = body.balance / 100000000
+
+      $('#balance').text(balance)
+    } catch(err) {
+      console.error(`Error in getBalance(): `, err)
+    }
+  }
 
   async function requestBCH() {
     try {
@@ -120,7 +137,6 @@
       const resp = await fetch(`http://localhost:5001/coins/${bchAddr}`)
       //const resp = await fetch(`http://decatur.hopto.org:3456/coins/${bchAddr}`)
       // const resp = await fetch(`/coins/${bchAddr}`)
-      debugger;
       const body = await resp.json()
       console.log(`body: ${JSON.stringify(body,null,2)}`)
 
