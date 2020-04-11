@@ -167,7 +167,7 @@ class CoinsController {
         message: `tBCH sent via TXID: ${txid}`
       }
     } catch (err) {
-      wlogger.error('Error in coins/controller.js/getCoins()')
+      wlogger.error('Error in coins/controller.js/getCoins():', err)
       ctx.throw(500)
     }
 
