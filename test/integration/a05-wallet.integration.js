@@ -28,7 +28,7 @@ describe('#Wallet', () => {
       // console.log('result: ', result)
 
       assert.isString(result)
-      assert.include(result, '0200000001c92')
+      assert.include(result, '020000000')
     })
   })
 })
