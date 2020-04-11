@@ -85,7 +85,7 @@ class CoinsController {
 
       // Allow sending to itself, to test the system. All other addresses use
       // IP and address filtering to prevent abuse of the faucet.
-      if (bchAddr !== config.addr) {
+      if (bchAddr !== _this.config.appAddress) {
         // Check if IP Address already exists in the database.
         const ipIsKnown = await _this.seenIPAddress(ip)
         // const ipIsKnown = false // Used for testing.
@@ -160,6 +160,12 @@ class CoinsController {
       // Add IP and BCH address to DB.
       await _this.saveIp(ip)
       await _this.saveAddr(bchAddr)
+
+      ctx.body = {
+        success: true,
+        txid: txid,
+        message: `tBCH sent via TXID: ${txid}`
+      }
     } catch (err) {
       wlogger.error('Error in coins/controller.js/getCoins()')
       ctx.throw(500)

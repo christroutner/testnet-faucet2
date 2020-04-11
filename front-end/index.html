@@ -29,8 +29,10 @@
 <section style="padding-top: 70px;">
   <div class='container'>
     <div class='row well well-lg'>
-      <div class='col-md-6'>
-        <h2>BCH Testnet Faucet</h2>
+      <div class='col-md-12'>
+        <h2>
+          BCH Testnet Faucet brought to by <a href="https://FullStack.cash">FullStack.cash</a>
+        </h2>
         <p class='lead'>
           This is a testnet faucet built with
           <a href="https://www.npmjs.com/package/@chris.troutner/bch-js">bch-js</a>
@@ -40,11 +42,6 @@
         <p>
           <a href="https://github.com/christroutner/testnet-faucet" target="_blank">Fork this demo on GitHub!</a>
         </p>
-      </div>
-      <div class='col-md-6 visible-md visible-lg'>
-        <a href="https://developer.bitcoin.com/">
-          <img src='images/bitcoincom.jpg' alt='Bitcoin.com Testnet Faucet' style="width: 100%" />
-        </a>
       </div>
     </div>
 
@@ -123,6 +120,7 @@
       const resp = await fetch(`http://localhost:5001/coins/${bchAddr}`)
       //const resp = await fetch(`http://decatur.hopto.org:3456/coins/${bchAddr}`)
       // const resp = await fetch(`/coins/${bchAddr}`)
+      debugger;
       const body = await resp.json()
       console.log(`body: ${JSON.stringify(body,null,2)}`)
 
