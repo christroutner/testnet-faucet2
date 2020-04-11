@@ -21,8 +21,16 @@ class Wallet {
       _this = this
 
       _this.config = config
-      _this.WALLETPATH = '../../wallet.json'
-      _this.wallet = require(_this.WALLETPATH)
+
+      // Open the wallet. If running a test, open the mock wallet.
+      if (_this.config.env !== 'test') {
+        _this.WALLETPATH = '../../wallet.json'
+        _this.wallet = require(_this.WALLETPATH)
+      } else {
+        const mockData = require('../../test/mocks/wallet.mocks')
+        _this.wallet = mockData.testWallet
+      }
+
       _this.state = new State()
       _this.bchjs = new BCHJS({ restURL: 'https://tapi.fullstack.cash/v3/' })
     } catch (err) {
