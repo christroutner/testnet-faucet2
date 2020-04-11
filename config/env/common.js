@@ -3,6 +3,8 @@
   environments.
 */
 
+const tenthBCH = 10000000
+
 module.exports = {
   port: process.env.PORT || 7654,
   logPass: 'test',
@@ -14,6 +16,7 @@ module.exports = {
   FULLSTACKPASS: process.env.FULLSTACKPASS ? process.env.FULLSTACKPASS : 'demo',
   apiLevel: 10, // Tier of access: 10 = free, 20 = full node, 30 = indexer, 40 = SLP
 
-  satsToSend: 1000, // Amount of satoshis to send on each request.
-  appAddress: 'bchtest:qqmd9unmhkpx4pkmr6fkrr8rm6y77vckjvqe8aey35'
+  satsToSend: tenthBCH, // Amount of satoshis to send on each request.
+  appAddress: 'bchtest:qqmd9unmhkpx4pkmr6fkrr8rm6y77vckjvqe8aey35',
+  bchPerHour: tenthBCH * 10
 }

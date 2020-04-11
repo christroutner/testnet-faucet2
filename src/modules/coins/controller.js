@@ -91,8 +91,8 @@ class CoinsController {
         // const ipIsKnown = false // Used for testing.
 
         // Check if the BCH address already exists in the database.
-        // const bchIsKnown = await checkBchAddress(bchAddr)
-        const bchIsKnown = false
+        const bchIsKnown = await _this.checkBchAddress(bchAddr)
+        // const bchIsKnown = false
 
         // If either are true, deny request.
         if (ipIsKnown || bchIsKnown) {
@@ -117,7 +117,7 @@ class CoinsController {
         }
 
         // Reject too much BCH is being drained over the course of an hour.
-        if (sentTotal > config.bchPerHour) {
+        if (sentTotal > _this.config.bchPerHour) {
           ctx.body = {
             success: false,
             message: 'Too much tBCH being drained. Wait an hour and try again.'
@@ -224,6 +224,32 @@ class CoinsController {
       await newAddr.save()
     } catch (err) {
       console.log('Error in saveAddr().')
+      throw err
+    }
+  }
+
+  // Returns false if the request did not orginate from the FullStack.cash website.
+  checkOrigin (origin) {
+    try {
+      if (origin === 'https://faucet.fullstack.cash') return true
+
+      return false
+    } catch (err) {
+      console.log('Error in checkOrigin.')
+      throw err
+    }
+  }
+
+  // Checks if the BCH address exists in the DB. Returns true or false.
+  async checkBchAddress (bchAddr) {
+    try {
+      const existingAddr = await BchAddresses.findOne({ bchAddress: bchAddr })
+
+      if (existingAddr) return true
+
+      return false
+    } catch (err) {
+      console.log('Error in checkBchAddress.')
       throw err
     }
   }
