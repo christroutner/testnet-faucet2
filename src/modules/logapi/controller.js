@@ -122,15 +122,18 @@ class LogsApi {
   generateFileName () {
     try {
       const now = new Date()
-      const thisDate = now.getDate()
+      let thisDate = now.getDate()
+      thisDate = ('00' + thisDate).slice(-2)
 
       let thisMonth = now.getMonth() + 1
-      thisMonth = ('0' + thisMonth).slice(-2)
+      thisMonth = ('00' + thisMonth).slice(-2)
       // console.log(`thisMonth: ${thisMonth}`)
 
       const thisYear = now.getFullYear()
 
-      const filename = `koa-${config.env}-${thisYear}-${thisMonth}-${thisDate}.log`
+      const filename = `koa-${
+        config.env
+      }-${thisYear}-${thisMonth}-${thisDate}.log`
       // console.log(`filename: ${filename}`)
       const logDir = `${__dirname}/../../../logs/`
       const fullPath = `${logDir}${filename}`
