@@ -61,7 +61,7 @@ class LogsApi {
         const fullPath = _this.generateFileName()
 
         // Throw an error if the file does not exist.
-        fs.sts(fullPath, (err, stat) => {
+        fs.stat(fullPath, (err, stat) => {
           if (err) {
             ctx.body = {
               success: false,
@@ -132,11 +132,10 @@ class LogsApi {
   generateFileName () {
     try {
       const now = new Date()
-      let thisDate = now.getDate()
-      thisDate = ('00' + thisDate).slice(-2)
+      const thisDate = now.getDate()
 
       let thisMonth = now.getMonth() + 1
-      thisMonth = ('00' + thisMonth).slice(-2)
+      thisMonth = ('0' + thisMonth).slice(-2)
       // console.log(`thisMonth: ${thisMonth}`)
 
       const thisYear = now.getFullYear()
