@@ -60,6 +60,16 @@ class LogsApi {
         // Generate the full path and file name for the current log file.
         const fullPath = _this.generateFileName()
 
+        // Throw an error if the file does not exist.
+        fs.sts(fullPath, (err, stat) => {
+          if (err) {
+            ctx.body = {
+              success: false,
+              data: 'file does not exist'
+            }
+          }
+        })
+
         // Read in the data from the log file.
         const data = await _this.readLines(fullPath)
         // console.log(`data: ${JSON.stringify(data, null, 2)}`)
