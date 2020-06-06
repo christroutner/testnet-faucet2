@@ -98,7 +98,7 @@ async function cleanIPs () {
     const oneDay = 60000 * 60 * 24
     const yesterday = new Date(nowNum - oneDay)
 
-    await mongoose.connect(config.database, { useNewUrlParser: true })
+    // await mongoose.connect(config.database, { useNewUrlParser: true })
 
     const ipAddrs = await IpAddresses.find({})
     // console.log(`ipAddrs: ${JSON.stringify(ipAddrs, null, 2)}`)
@@ -114,7 +114,7 @@ async function cleanIPs () {
       if (oldTime.getTime() < yesterday.getTime()) { await thisIp.remove() }
     }
 
-    mongoose.connection.close()
+    // mongoose.connection.close()
 
     wlogger.info('Cleared old IPs from database.')
   } catch (err) {
