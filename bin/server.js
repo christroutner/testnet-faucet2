@@ -19,6 +19,8 @@ const wlogger = require('../src/lib/wlogger')
 const FullStack = require('../src/lib/fullstack')
 const fullstack = new FullStack()
 
+const IpAddresses = require('../src/models/ip-addresses')
+
 async function startServer () {
   // Create a Koa instance.
   const app = new Koa()
@@ -78,9 +80,47 @@ async function startServer () {
     fullstack.startup()
   }
 
+  // Periodically clear IPs from the database.
+  setInterval(async function () {
+    await cleanIPs()
+  }, 60000 * 60) // Once per hour
+  await cleanIPs() // Clear IPs on startup too.
+
   return app
 }
 // startServer()
+
+// Removes IP addresses from the database that are more than 24 hours old.
+async function cleanIPs () {
+  try {
+    const now = new Date()
+    const nowNum = now.getTime()
+    const oneDay = 60000 * 60 * 24
+    const yesterday = new Date(nowNum - oneDay)
+
+    await mongoose.connect(config.database, { useNewUrlParser: true })
+
+    const ipAddrs = await IpAddresses.find({})
+    // console.log(`ipAddrs: ${JSON.stringify(ipAddrs, null, 2)}`)
+
+    // Loop through each IP entry.
+    for (let i = 0; i < ipAddrs.length; i++) {
+      const thisIp = ipAddrs[i].timestamp
+
+      const oldTime = new Date(thisIp.timestamp)
+
+      // If the timestamp on the IP address model is more than 24 hours old,
+      // delete it from the database.
+      if (oldTime.getTime() < yesterday.getTime()) { await thisIp.remove() }
+    }
+
+    mongoose.connection.close()
+
+    wlogger.info('Cleared old IPs from database.')
+  } catch (err) {
+    wlogger.error('Error in cleanIPs: ', err)
+  }
+}
 
 // export default app
 // module.exports = app
