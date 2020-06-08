@@ -59,10 +59,12 @@ class UserController {
         throw new Error("Property 'email' must be a string!")
       }
 
-      const isEmail = await _this.validateEmail(user.email)
-      if (!isEmail) {
-        throw new Error("Property 'email' must be email format!")
-      }
+      // This validation is not permissive to different TLDs like this one:
+      // someone@somewhere.link. Removing it until it can be updated.
+      // const isEmail = await _this.validateEmail(user.email)
+      // if (!isEmail) {
+      //   throw new Error("Property 'email' must be email format!")
+      // }
 
       if (!user.password || typeof user.password !== 'string') {
         throw new Error("Property 'password' must be a string!")
