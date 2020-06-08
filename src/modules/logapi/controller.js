@@ -132,7 +132,8 @@ class LogsApi {
   generateFileName () {
     try {
       const now = new Date()
-      const thisDate = now.getDate()
+      let thisDate = now.getDate()
+      thisDate = ('0' + thisDate).slice(-2)
 
       let thisMonth = now.getMonth() + 1
       thisMonth = ('0' + thisMonth).slice(-2)
