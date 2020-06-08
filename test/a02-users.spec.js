@@ -81,29 +81,29 @@ describe('Users', () => {
       }
     })
 
-    it('should reject signup if email property provided in wrong format', async () => {
-      try {
-        const options = {
-          method: 'POST',
-          url: `${LOCALHOST}/users`,
-          data: {
-            user: {
-              email: 'badEmailFormat',
-              password: 'test'
-            }
-          }
-        }
-        await axios(options)
-
-        assert(false, 'Unexpected result')
-      } catch (err) {
-        assert.equal(err.response.status, 422)
-        assert.include(
-          err.response.data,
-          "Property 'email' must be email format"
-        )
-      }
-    })
+    // it('should reject signup if email property provided in wrong format', async () => {
+    //   try {
+    //     const options = {
+    //       method: 'POST',
+    //       url: `${LOCALHOST}/users`,
+    //       data: {
+    //         user: {
+    //           email: 'badEmailFormat',
+    //           password: 'test'
+    //         }
+    //       }
+    //     }
+    //     await axios(options)
+    //
+    //     assert(false, 'Unexpected result')
+    //   } catch (err) {
+    //     assert.equal(err.response.status, 422)
+    //     assert.include(
+    //       err.response.data,
+    //       "Property 'email' must be email format"
+    //     )
+    //   }
+    // })
 
     it('should reject signup if no password property is provided', async () => {
       try {
