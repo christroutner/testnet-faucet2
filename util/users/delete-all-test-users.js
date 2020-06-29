@@ -1,5 +1,9 @@
 const mongoose = require('mongoose')
 
+// Force test environment
+// make sure environment variable is set before this file gets called.
+// see test script in package.json.
+// process.env.KOA_ENV = 'test'
 const config = require('../../config')
 
 const User = require('../../src/models/users')
