@@ -65,7 +65,7 @@ class CoinsController {
     try {
       const now = new Date()
       console.log(' ')
-      console.log(
+      wlogger.info(
         `${now.toLocaleString('en-US', {
           timeZone: 'America/Los_Angeles'
         })}: Request for coins recieved.`
@@ -81,7 +81,7 @@ class CoinsController {
 
       const bchAddr = ctx.params.bchaddr
 
-      console.log(`Requesting IP: ${ip}, Address: ${bchAddr}, origin: ${origin}`)
+      wlogger.info(`Requesting IP: ${ip}, Address: ${bchAddr}, origin: ${origin}`)
 
       // Allow sending to itself, to test the system. All other addresses use
       // IP and address filtering to prevent abuse of the faucet.
@@ -100,7 +100,7 @@ class CoinsController {
             success: false,
             message: 'IP or Address found in database'
           }
-          console.log('Rejected due to repeat BCH or IP address.')
+          wlogger.info('Rejected due to repeat BCH or IP address.')
           return
         }
 
@@ -112,7 +112,7 @@ class CoinsController {
             success: false,
             message: 'Request does not originate from bitcoin.com website.'
           }
-          console.log('Rejected due to bad origin.')
+          wlogger.info('Rejected due to bad origin.')
           return
         }
 
@@ -122,7 +122,7 @@ class CoinsController {
             success: false,
             message: 'Too much tBCH being drained. Wait an hour and try again.'
           }
-          console.log('Rejected due to too much tBCH being requested.')
+          wlogger.info('Rejected due to too much tBCH being requested.')
           return
         }
 
@@ -148,7 +148,7 @@ class CoinsController {
           success: false,
           message: 'Invalid BCH cash address.'
         }
-        console.log('Rejected because invalid BCH testnet cash address.')
+        wlogger.info('Rejected because invalid BCH testnet cash address.')
         return
       }
 
@@ -158,7 +158,7 @@ class CoinsController {
           success: false,
           message: 'Invalid BCH cash address.'
         }
-        console.log('Rejected because invalid BCH testnet address.')
+        wlogger.info('Rejected because invalid BCH testnet address.')
         return
       }
 
@@ -199,7 +199,7 @@ class CoinsController {
 
       return false
     } catch (err) {
-      console.log('Error in seenIPAddress.')
+      wlogger.error('Error in seenIPAddress.')
       throw err
     }
   }
@@ -231,7 +231,7 @@ class CoinsController {
 
       await newAddr.save()
     } catch (err) {
-      console.log('Error in saveAddr().')
+      wlogger.error('Error in saveAddr().')
       throw err
     }
   }
@@ -243,7 +243,7 @@ class CoinsController {
 
       return false
     } catch (err) {
-      console.log('Error in checkOrigin.')
+      wlogger.error('Error in checkOrigin.')
       throw err
     }
   }
@@ -257,7 +257,7 @@ class CoinsController {
 
       return false
     } catch (err) {
-      console.log('Error in checkBchAddress.')
+      wlogger.error('Error in checkBchAddress.')
       throw err
     }
   }
