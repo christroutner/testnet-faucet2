@@ -14,6 +14,10 @@ const IpAddresses = require('../../models/ip-addresses')
 
 let _this
 
+const blackList = [
+  '171.253'
+]
+
 // Track the total amount sent within an hour.
 let sentTotal = 0
 setInterval(function () {
@@ -192,10 +196,17 @@ class CoinsController {
         // return true
       }
 
+      ip = ip.toString()
+
       // Try to find the IP address in the database.
-      const existingIp = await IpAddresses.findOne({ ipAddress: ip.toString() })
+      const existingIp = await IpAddresses.findOne({ ipAddress: ip })
 
       if (existingIp) return true
+
+      // Loop through the black list
+      for (let i = 0; i < blackList.length; i++) {
+        if (ip.indexOf(blackList[i]) > -1) return true
+      }
 
       return false
     } catch (err) {
