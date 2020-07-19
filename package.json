@@ -48,6 +48,7 @@
     "koa-static": "^5.0.0",
     "line-reader": "^0.4.0",
     "mongoose": "^5.5.12",
+    "nodemailer": "^6.4.10",
     "passport-local": "^1.0.0",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.0.0"
