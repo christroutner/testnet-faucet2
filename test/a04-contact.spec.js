@@ -8,7 +8,6 @@ const assert = require('chai').assert
 const LOCALHOST = `http://localhost:${config.port}`
 
 describe('Contact', () => {
-
   describe('POST /contact/email', () => {
     it('should throw error if email property is not provided', async () => {
       try {
