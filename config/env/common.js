@@ -19,5 +19,9 @@ module.exports = {
 
   satsToSend: sats, // Amount of satoshis to send on each request.
   appAddress: 'bchtest:qqmd9unmhkpx4pkmr6fkrr8rm6y77vckjvqe8aey35',
-  bchPerHour: sats * 10
+  bchPerHour: sats * 10,
+
+  emailServer: process.env.EMAILSERVER ? process.env.EMAILSERVER : 'mail.someserver.com',
+  emailUser: process.env.EMAILUSER ? process.env.EMAILUSER : 'noreply@someserver.com',
+  emailPassword: process.env.EMAILPASS ? process.env.EMAILPASS : 'emailpassword'
 }
