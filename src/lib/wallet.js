@@ -42,11 +42,11 @@ class Wallet {
     try {
       const cashAddr = _this.wallet.cashAddress
 
-      const balanceObj = await _this.bchjs.Blockbook.balance(cashAddr)
+      const balanceObj = await _this.bchjs.Electrumx.balance(cashAddr)
       // console.log(`balanceObj: ${JSON.stringify(balanceObj, null, 2)}`)
 
       const balance =
-        Number(balanceObj.balance) + Number(balanceObj.unconfirmedBalance)
+        Number(balanceObj.balance.confirmed) + Number(balanceObj.balance.unconfirmed)
       // console.log(`balance: ${JSON.stringify(balance, null, 2)}`)
 
       // console.log(`BCH Balance information for ${cashAddress}:`)
@@ -89,7 +89,9 @@ class Wallet {
       const cashAddress = _this.wallet.cashAddress
 
       // Query utxos associated with the address from an indexer.
-      const utxos = await _this.bchjs.Blockbook.utxo(cashAddress)
+      // const utxos = await _this.bchjs.Blockbook.utxo(cashAddress)
+      const fulcrumUtxos = await _this.bchjs.Electrumx.utxo(cashAddress)
+      const utxos = fulcrumUtxos.utxos
       // console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
 
       // Get the biggest UTXO, which is assumed to be spendable.

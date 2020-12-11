@@ -1,4 +1,3 @@
-
 const assert = require('chai').assert
 const sinon = require('sinon')
 
@@ -24,9 +23,11 @@ describe('#Wallet', () => {
       const mockBalance = 54321
 
       // Mock returned data from Blockbook. Balances will be strings.
-      sandbox.stub(uut.bchjs.Blockbook, 'balance').resolves({
-        balance: `${mockBalance}`,
-        unconfirmedBalance: '0'
+      sandbox.stub(uut.bchjs.Electrumx, 'balance').resolves({
+        balance: {
+          confirmed: mockBalance,
+          unconfirmed: 0
+        }
       })
 
       const result = await uut.getBalance()
@@ -98,7 +99,7 @@ describe('#Wallet', () => {
   describe('sendBCH()', () => {
     it('should sendBCH', async () => {
       // Mock dependent functions to prevent live network calls.
-      sandbox.stub(uut.bchjs.Blockbook, 'utxo').resolves(mockData.utxos)
+      sandbox.stub(uut.bchjs.Electrumx, 'utxo').resolves({ utxos: mockData.utxos })
 
       const addr = 'bchtest:qqmd9unmhkpx4pkmr6fkrr8rm6y77vckjvqe8aey35'
 

@@ -85,13 +85,12 @@ class FullStack {
       const address = 'bitcoincash:qr8wlllpll7cgjtav9qt7zuqtj9ldw49jc8evqxf5x'
 
       // Get the balance for the address from the indexer.
-      const balance = await _this.bchjs.Blockbook.balance(address)
-      // console.log(`balance: ${JSON.stringify(balance, null, 2)}`)
-      // console.log(`bchjs.apiToken: ${bchjs.apiToken}`)
+      const balanceObj = await _this.bchjs.Electrumx.balance(address)
+      // console.log(`balanceObj: ${JSON.stringify(balanceObj, null, 2)}`)
 
       // Calculate the real balance.
       const realBalance =
-        Number(balance.balance) + Number(balance.unconfirmedBalance)
+        Number(balanceObj.balance.confirmed) + Number(balanceObj.balance.unconfirmed)
 
       // Generate a timestamp.
       let now = new Date()
