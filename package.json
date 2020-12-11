@@ -21,7 +21,7 @@
   },
   "repository": "christroutner/testnet-faucet2",
   "dependencies": {
-    "@chris.troutner/bch-js": "^2.3.11",
+    "@psf/bch-js": "^4.2.0",
     "apidoc": "^0.23.0",
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",

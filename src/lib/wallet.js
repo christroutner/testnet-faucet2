@@ -8,7 +8,7 @@ const config = require('../../config')
 const State = require('./state')
 const wlogger = require('./wlogger')
 
-const BCHJS = require('@chris.troutner/bch-js')
+const BCHJS = require('@psf/bch-js')
 
 let _this
 

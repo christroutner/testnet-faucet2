@@ -11,7 +11,7 @@ const state = new State()
 const JwtLib = require('jwt-bch-lib')
 
 // Instantiate bch-js SDK for working with Bitcoin Cash.
-const BCHJS = require('@chris.troutner/bch-js')
+const BCHJS = require('@psf/bch-js')
 const bchjs = new BCHJS({
   restURL: config.APISERVER,
   apiToken: config.BCHJSTOKEN
