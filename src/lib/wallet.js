@@ -91,8 +91,9 @@ class Wallet {
       // Query utxos associated with the address from an indexer.
       // const utxos = await _this.bchjs.Blockbook.utxo(cashAddress)
       const fulcrumUtxos = await _this.bchjs.Electrumx.utxo(cashAddress)
+      console.log(`fulcrumUtxos: ${JSON.stringify(fulcrumUtxos, null, 2)}`)
       const utxos = fulcrumUtxos.utxos
-      // console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
+      console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
 
       // Get the biggest UTXO, which is assumed to be spendable.
       const utxo = _this.findBiggestUtxo(utxos)
