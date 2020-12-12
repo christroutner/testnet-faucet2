@@ -103,11 +103,11 @@ class Wallet {
       const transactionBuilder = new _this.bchjs.TransactionBuilder('testnet')
 
       const satoshisToSend = AMOUNT_TO_SEND
-      const originalAmount = utxo.satoshis
+      const originalAmount = utxo.value
       // console.log(`originalAmount ${originalAmount}`)
 
-      const vout = utxo.vout
-      const txid = utxo.txid
+      const vout = utxo.tx_pos
+      const txid = utxo.tx_hash
 
       // add input with txid and index of vout
       transactionBuilder.addInput(txid, vout)
@@ -182,8 +182,8 @@ class Wallet {
       for (var i = 0; i < utxos.length; i++) {
         const thisUtxo = utxos[i]
 
-        if (thisUtxo.satoshis > largestAmount) {
-          largestAmount = thisUtxo.satoshis
+        if (thisUtxo.value > largestAmount) {
+          largestAmount = thisUtxo.value
           largestIndex = i
         }
       }
