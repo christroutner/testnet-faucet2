@@ -32,7 +32,7 @@ class Wallet {
       }
 
       _this.state = new State()
-      _this.bchjs = new BCHJS({ restURL: 'https://tapi.fullstack.cash/v3/' })
+      _this.bchjs = new BCHJS({ restURL: 'https://tapi.fullstack.cash/v4/' })
     } catch (err) {
       throw new Error('Could not open wallet.json file.')
     }
