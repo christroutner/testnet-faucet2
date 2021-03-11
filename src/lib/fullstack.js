@@ -59,7 +59,10 @@ class FullStack {
       }
 
       // Instantiate bch-js with the API token.
-      _this.bchjs = new BCHJS({ restURL: _this.config.APISERVER, apiToken: _this.config.BCHJSTOKEN })
+      _this.bchjs = new BCHJS({
+        restURL: _this.config.APISERVER,
+        apiToken: _this.config.BCHJSTOKEN
+      })
 
       // Start a timer that periodically checks the balance of the app.
       // Also start a timer that runs the main app every 10 seconds.
@@ -90,7 +93,8 @@ class FullStack {
 
       // Calculate the real balance.
       const realBalance =
-        Number(balanceObj.balance.confirmed) + Number(balanceObj.balance.unconfirmed)
+        Number(balanceObj.balance.confirmed) +
+        Number(balanceObj.balance.unconfirmed)
 
       // Generate a timestamp.
       let now = new Date()
