@@ -26,7 +26,7 @@
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "glob": "^7.0.0",
-    "jsonwebtoken": "^8.3.0",
+    "jsonwebtoken": "^9.0.0",
     "jwt-bch-lib": "^1.3.0",
     "kcors": "^2.2.1",
     "koa": "^2.5.0",
